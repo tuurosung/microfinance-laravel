@@ -1,0 +1,121 @@
+/* Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Cal+Sans&family=Crimson+Pro:ital,wght@0,200..900;1,200..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Jost:ital,wght@0,100..900;1,100..900&family=Marcellus&family=Open+Sans:ital,wdth,wght@0,75..100,300..800;1,75..100,300..800&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap');
+
+@import url('https://cdn-uicons.flaticon.com/4.0.0/uicons-bold-rounded/css/uicons-bold-rounded.css');
+@import url('https://cdn-uicons.flaticon.com/4.0.0/uicons-solid-straight/css/uicons-solid-straight.css');
+@import url('https://cdn-uicons.flaticon.com/4.0.0/uicons-solid-rounded/css/uicons-solid-rounded.css');
+@import url('https://cdn-uicons.flaticon.com/4.0.0/uicons-regular-rounded/css/uicons-regular-rounded.css');
+
+@import 'tailwindcss';
+@import '../../vendor/livewire/flux/dist/flux.css';
+@import './ui.css';
+/* @import './ui-pro.css'; */
+@import './just-css.css';
+
+
+
+
+/* @custom-variant dark (&:where(.dark, .dark *)); */
+
+@theme {
+    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-cal-sans-regular: 'Cal Sans', sans-serif;
+    --font-crimson-pro-regular: 'Crimson Pro', serif;
+    --font-crimson-pro-bold: 'Crimson Pro', serif;
+    --font-inter-regular: 'Inter', sans-serif;
+    --font-inter-bold: 'Inter', sans-serif;
+    --font-jost-regular: 'Jost', sans-serif;
+    --font-jost-bold: 'Jost', sans-serif;
+    --font-marcellus-regular: 'Marcellus', serif;
+    --font-open-sans-regular: 'Open Sans', sans-serif;
+    --font-open-sans-bold: 'Open Sans', sans-serif;
+    --font-urbanist-regular: 'Urbanist', sans-serif;
+    --font-urbanist-bold: 'Urbanist', sans-serif;
+
+    --font-body: var(--font-inter-regular);
+    --font-heading: var(--font-sans);
+
+    --color-zinc-50: #fafafa;
+    --color-zinc-100: #f5f5f5;
+    --color-zinc-200: #e5e5e5;
+    --color-zinc-300: #d4d4d4;
+    --color-zinc-400: #a3a3a3;
+    --color-zinc-500: #737373;
+    --color-zinc-600: #525252;
+    --color-zinc-700: #404040;
+    --color-zinc-800: #262626;
+    --color-zinc-900: #171717;
+    --color-zinc-950: #0a0a0a;
+
+    --color-accent: var(--color-neutral-800);
+    --color-accent-content: var(--color-neutral-800);
+    --color-accent-foreground: var(--color-white);
+}
+
+@layer theme {
+    .dark {
+        --color-accent: var(--color-white);
+        --color-accent-content: var(--color-white);
+        --color-accent-foreground: var(--color-neutral-800);
+    }
+}
+
+@layer base {
+
+    *,
+    ::after,
+    ::before,
+    ::backdrop,
+    ::file-selector-button {
+        border-color: var(--color-gray-200, currentColor);
+    }
+}
+
+[data-flux-field]:not(ui-radio, ui-checkbox) {
+    @apply grid gap-2;
+}
+
+[data-flux-label] {
+    @apply  !mb-0 !leading-tight;
+}
+
+input:focus[data-flux-control],
+textarea:focus[data-flux-control],
+select:focus[data-flux-control] {
+    @apply outline-hidden ring-2 ring-accent ring-offset-2 ring-offset-accent-foreground;
+}
+
+\[:where(&)\]:size-4 {
+    @apply size-4;
+}
+
+
+
+@layer utilities {
+    .bg-info\/5 {
+        @supports (color:color-mix(in lab, red, red)) {
+                {
+                background-color: color-mix(in oklab, var(--color-info) 5%, transparent);
+            }
+        }
+    }
+
+
+}
+
+/* Custom Styling */
+
+/* Bootstrap row equivalent */
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+}
+
+.col-md-6 {
+    position: relative;
+    width: 50%;
+    padding-right: 15px;
+    padding-left: 15px;
+}
