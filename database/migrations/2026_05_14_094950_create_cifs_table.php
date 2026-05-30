@@ -26,9 +26,11 @@ return new class extends Migration
             $table->text('residential_address');
 
             // KYC Compliance
-            // $table->string('gh_card_number')->unique();
-            // $table->string('tax_id')->unique();
-            $table->integer('kyc_level')->default(1);
+            $table->enum('kyc_level', [
+                'basic',
+                'enhanced',
+                'simplified'
+            ])->default('basic');
 
             // Account Manager
             $table->foreignId('maker_id')->constrained('users'); // staff who opened the account
