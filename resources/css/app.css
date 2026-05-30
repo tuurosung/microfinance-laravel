@@ -8,9 +8,17 @@
 
 @import 'tailwindcss';
 @import '../../vendor/livewire/flux/dist/flux.css';
+
+@import "flowbite/src/themes/default";
+@plugin "flowbite/plugin";
+@source "../../node_modules/flowbite";
+
 @import './ui.css';
 /* @import './ui-pro.css'; */
 @import './just-css.css';
+
+
+
 
 
 
@@ -118,4 +126,23 @@ select:focus[data-flux-control] {
     width: 50%;
     padding-right: 15px;
     padding-left: 15px;
+}
+
+
+i[class^="fi-rr-"]::before,
+i[class*=" fi-rr-"]::before,
+span[class^="fi-rr-"]::before,
+span[class*="fi-rr-"]::before {
+    font-family: uicons-regular-rounded !important;
+    font-style: normal;
+    font-weight: normal !important;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1.42587 !important;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    /* align middle */
+    vertical-align: middle;
+    display: inline-block;
 }
