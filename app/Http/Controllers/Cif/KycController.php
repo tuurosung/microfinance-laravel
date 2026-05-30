@@ -3,8 +3,12 @@
 namespace App\Http\Controllers\Cif;
 
 use App\Enums\Kyc\EmploymentStatus;
+use App\Enums\Kyc\EmploymentStatusEnum;
 use App\Enums\Kyc\GhanaCardStatus;
+use App\Enums\Kyc\GhanaCardStatusEnum;
 use App\Enums\Kyc\SourceOfFunds;
+use App\Enums\Kyc\SourceOfFundsEnum;
+use App\Exceptions\RecordLockedException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Cif\Kyc\StoreKycRequest;
 use App\Http\Requests\Cif\Kyc\UpdateKycRequest;
@@ -33,11 +37,18 @@ class KycController extends Controller
      */
     public function create(Cif $cif, RegionService $regionService)
     {
+        try {
+            
+            $cif->lock(ttlMinutes: 15);
+        } catch (RecordLockedException $exception) {
+
+            return redirect()->back()->with('error', $exception->getMessage());
+        }
         return view('app.cif.kyc-compliance', [
             'cif' => $cif,
-            'sourceOfFunds' => SourceOfFunds::options(),
-            'employmentStatus' =>EmploymentStatus::options(),
-            'ghanaCardStatus' => GhanaCardStatus::options(),
+            'sourceOfFunds' => SourceOfFundsEnum::options(),
+            'employmentStatus' =>EmploymentStatusEnum::options(),
+            'ghanaCardStatus' => GhanaCardStatusEnum::options(),
             'regions' => $regionService->getRegions()
         ]);
     }
@@ -47,12 +58,8 @@ class KycController extends Controller
      */
     public function store(StoreKycRequest $request, Cif $cif)
     {
-        // dd($request->validated());
 
-        // if relationship exists
-        // dd($cif->kyc->exists());
-
-        if ($cif->kyc()->updateOrCreate($request->validated())) {
+        if ($cif->kyc()->updateOrCreate($request->validatedKycData())) {
             return redirect()->back()->with('success', 'KYC created successfully');
         }
 
