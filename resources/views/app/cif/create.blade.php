@@ -2,89 +2,82 @@
 
     <div class="mx-auto max-w-5xl">
 
-        <div class="mb-9 flex justify-between">
-            <div>
-                <flux:heading size="xl" level="1" class="font-cal-sans-regular">{{ __('New CIF') }}</flux:heading>
-                <flux:subheading size="lg">{{ __('Create a new cif') }}</flux:subheading>
-            </div>
-            <div>
+        <x-custom.headers.page-header title="Create CIF" />
 
-            </div>
-        </div>
+
 
         @include('layouts.errors')
 
         <form class="space-y-6" method="POST" action="{{ route('cif.store') }}">
             @csrf
-            <flux:card class="rounded-1">
 
-                <h1 class="text-2xl text-dark dark:text-white font-cal-sans-regular my-3">Create A New CIF</h1>
+            <x-custom.cards.card title="New Customer Information File">
 
-                <flux:separator class="mb-8 "/>
-
-                <div class="grid grid-cols-12 gap-6 mb-6">
-                    <div class="lg:col-span-3 md:col-span-4 sm:col-span-6 col-span-6">
-                        <flux:select name="title" label="Title" placeholder="Select title ....">
-                            <flux:select.option value="mr">Mr.</flux:select.option>
-                            <flux:select.option value="mrs">Mrs.</flux:select.option>
-                            <flux:select.option value="miss">Miss</flux:select.option>
-                            <flux:select.option value="rev">Rev</flux:select.option>
-                        </flux:select>
+                <div class="grid grid-cols-12 mb-6">
+                    <div class="lg:col-span-3 md:col-span-3 sm:col-span-6 col-span-6">
+                        <x-custom.form-inputs.select label="Title" name="title" :options="$titleOptions" />
                     </div>
                 </div>
 
                 <div class="grid grid-cols-12 gap-6 mb-6">
                     <div class="lg:col-span-6 md:col-span-6 sm:col-span-12 col-span-12">
-                        <flux:input type="text" icon="user" name="firstname" label="Firstname" required />
+                        <x-custom.form-inputs.text-input label="First Name" name="first_name"
+                            placeholder="eg. Francis" />
                     </div>
                     <div class="lg:col-span-6 md:col-span-6 sm:col-span-12 col-span-12">
-                        <flux:input type="text" icon="user" name="othernames" label="Othernames" required />
-                    </div>
-                </div>
-
-
-                <!-- row with 2 columns -->
-                <div class="grid grid-cols-12 gap-6 mb-6">
-                    <div class="lg:col-span-3 md:col-span-3 sm:col-span-12 col-span-12">
-                        <flux:input type="text" icon="phone" name="phone_number" label="Phone Number" required />
-                    </div>
-                    <div class="lg:col-span-3 md:col-span-3 sm:col-span-12 col-span-12">
-                        <flux:input type="text" icon="phone" name="secondary_phone" label="Secondary Phone" required />
-                    </div>
-                    <div class="lg:col-span-6 md:col-span-6 sm:col-span-12 col-span-12">
-                        <flux:input type="text" icon="envelope" name="email" label="Email" required />
+                        <x-custom.form-inputs.text-input label="Othernames" name="other_names"
+                            placeholder="eg. Alhassan" />
                     </div>
                 </div>
 
 
                 <div class="grid grid-cols-12 gap-6 mb-6">
                     <div class="lg:col-span-3 md:col-span-3 sm:col-span-12 col-span-12">
-                        <flux:select icon="user-minus" name="sex" label="Sex" placeholder="Select sex ..." required>
-                            <flux:select.option value="male">Male</flux:select.option>
-                            <flux:select.option value="female">Female</flux:select.option>
-                        </flux:select>
+                        <x-custom.form-inputs.text-input label="Phone Number" name="phone_number"
+                            placeholder="0240000000" />
                     </div>
                     <div class="lg:col-span-3 md:col-span-3 sm:col-span-12 col-span-12">
-                        <flux:input label="Date of birth" type="date" name="date_of_birth" required />
+                        <x-custom.form-inputs.text-input label="Secondary Phone" name="secondary_phone"
+                            placeholder="0200000000" />
+                    </div>
+                    <div class="lg:col-span-3 md:col-span-3 sm:col-span-12 col-span-12">
+                        <x-custom.form-inputs.select label="Sex" name="sex" id="sex" :options="$sexOptions" />
+                    </div>
+                    <div class="lg:col-span-3 md:col-span-3 sm:col-span-12 col-span-12">
+                        <x-custom.form-inputs.date-input label="Date Of Birth" name="date_of_birth"
+                            id="date_of_birth" />
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-12 gap-6 mb-6">
+                    <div class="lg:col-span-6 md:col-span-6 sm:col-span-12 col-span-12">
+                        <x-custom.form-inputs.text-input label="Email" name="email" placeholder="you@domain.com" />
                     </div>
                     <div class="lg:col-span-6 md:col-span-6 sm:col-span-12 col-span-12">
-                        <flux:input icon="map-pin" name="residential_address" id="residential_address" label="Address"
-                            rows="1" required />
+                        <x-custom.form-inputs.text-input label="Address" name="residential_address"
+                            placeholder="hse no 256, street name" />
                     </div>
                 </div>
 
 
-                <div class="flex justify-end gap-3">
-                    <flux:button variant="danger" color="" class="px-8 pe-8 ps-8 cursor-pointer" icon="x-mark">
-                        Cancel
-                    </flux:button>
-                    <flux:button type="submit" variant="primary" color="blue" class="border-0 shadow-none px-8"
-                        icon:trailing="arrow-long-right" class="cursor-pointer">
-                        Next
-                    </flux:button>
+                <div class="grid grid-cols-12">
+                    <div class="col-span-12 flex justify-end">
+
+                        <button class="btn-md btn bg-danger me-3 hover:bg-danger">
+                            <i class="fi fi-rr-cross-small me-4"></i>
+                            Cancel
+                        </button>
+
+                        <button class="btn-md btn">Create CIF
+                            <i class="fi fi-rr-arrow-right ms-4"></i>
+                        </button>
+
+                    </div>
                 </div>
 
-            </flux:card>
+            </x-custom.cards.card>
+
+
         </form>
 
 
