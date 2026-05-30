@@ -2,7 +2,10 @@
 
 namespace App\Models\Cif;
 
+use App\Concerns\System\Lockable;
+use App\Enums\Cif\SexOptions;
 use App\Services\Cif\IdGenerator;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -10,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 class Cif extends Model
 {
     use HasUuids;
+    use Lockable;
 
     protected static function boot()
     {
@@ -50,6 +54,29 @@ class Cif extends Model
         'tax_id',
         'kyc_level',
     ];
+
+
+    protected $casts = [
+        'create_at' => 'datetime',
+        'sex' => SexOptions::class
+    ];
+
+
+    public function fullName(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->first_name . ' ' . $this->other_names
+        );
+    }
+
+    public function age(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => \Carbon\Carbon::parse($this->date_of_birth)->age
+        );
+    }
+
+
 
     // relationships
     public function kyc(): HasOne
