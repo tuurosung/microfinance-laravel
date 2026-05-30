@@ -23,12 +23,12 @@ class StoreCifRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'firstname' => [
+            'first_name' => [
                 'required',
                 'string',
                 'max:255',
             ],
-            'othernames' => [
+            'other_names' => [
                 'required',
                 'string',
                 'max:255',
