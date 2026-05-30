@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Cif;
 
+use App\Enums\Cif\SexOptions;
+use App\Enums\Cif\TitleOptionsEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Cif\Cif\StoreCifRequest;
 use App\Http\Requests\Cif\Cif\UpdateCifRequest;
@@ -18,7 +20,9 @@ class CifController extends Controller
      */
     public function index()
     {
-        return view('app.cif.index');
+        return view('app.cif.index', [
+            'cifs' => $this->cif->all()
+        ]);
     }
 
     /**
@@ -26,7 +30,10 @@ class CifController extends Controller
      */
     public function create()
     {
-        return view('app.cif.create');
+        return view('app.cif.create', [
+            'sexOptions' => SexOptions::options(),
+            'titleOptions' => TitleOptionsEnum::options(),
+        ]);
     }
 
     /**
@@ -48,7 +55,9 @@ class CifController extends Controller
      */
     public function show(Cif $cif)
     {
-        //
+        return view('app.cif.show', [
+            'cif' => $cif
+        ]);
     }
 
     /**
