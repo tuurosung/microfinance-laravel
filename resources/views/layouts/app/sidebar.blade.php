@@ -34,7 +34,7 @@
                 <!-- Cifs -->
                 <flux:sidebar.group expandable heading="Cifs" icon="users">
                     <flux:sidebar.item href="{{ route('cif.create') }}">New Cif</flux:sidebar.item>
-                    <flux:sidebar.item href="#">Existing Cif</flux:sidebar.item>
+                    <flux:sidebar.item href="{{ route('cif.index') }}">Existing Cif</flux:sidebar.item>
                 </flux:sidebar.group>
 
                 <!-- KYC Compliance -->
@@ -52,8 +52,6 @@
                     <flux:sidebar.item href="#">Existing Branch</flux:sidebar.item>
 
                 </flux:sidebar.group>
-
-
 
 
                 <flux:sidebar.item icon="users" :href="route('cif.index')" :current="request()->routeIs('cif.index')"
@@ -135,6 +133,8 @@
         <flux:toast />
     </flux:toast.group>
     @endpersist
+
+    @yield('scripts')
 
     @fluxScripts
 </body>
