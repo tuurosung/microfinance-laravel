@@ -2,9 +2,12 @@
 
 namespace App\Models\Cif;
 
+use App\Enums\Kyc\EmploymentStatusEnum;
+use App\Enums\Kyc\SourceOfFundsEnum;
 use App\Services\Kyc\ReferenceGenerator;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Validation\Rules\Enum;
 
 class Kyc extends Model
 {
@@ -35,6 +38,9 @@ class Kyc extends Model
         'ghana_card_verified_at',
         'ghana_card_verification_response',
 
+        'region',
+        'district',
+        'town',
         'digital_address',
         'digital_address_status',
         'digital_address_verified_at',
@@ -48,6 +54,7 @@ class Kyc extends Model
         'id_card_front_path',
         'id_card_back_path',
         'utility_bill_path',
+        'ghana_card_photo_path',
         'passport_photo_path',
         'signature_path',
 
@@ -77,8 +84,18 @@ class Kyc extends Model
         'source_of_funds',
         'source_of_funds_description',
         'employer_name',
+        'employment_status',
         'occupation',
         'monthly_income',
 
     ];
+
+
+    protected function casts()
+    {
+        return [
+            'source_of_funds' => SourceOfFundsEnum::class,
+            'employment_status' => EmploymentStatusEnum::class
+        ];
+    }
 }
