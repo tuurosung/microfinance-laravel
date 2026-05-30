@@ -9,67 +9,34 @@
         @include('layouts.errors')
 
 
-        <div class="flex mb-4">
+        <div class="flex mb-4 gap-4">
             <a href="javascript:void(0)" class="animate-card">
-                <div class="card ">
-                    <div class="card-body ">
-                        <div class="flex gap-5 items-center">
-                            <i class="fi fi-sr-check-circle text-info  text-4xl"></i>
-                            <div>
-                                <h5 class="text-md text-dark dark:text-darklink font-medium font-cal-sans-regular">
-                                    Registration
-                                </h5>
-                                <p class="text-xs mb-1">2.4GB
-                                    Junk File</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+
+                <x-custom.cards.wizard-card
+                    label="Registration"
+                    description="Customer Information File Registration"
+                    icon="check-circle" />
+
             </a>
             <a href="javascript:void(0)" class="animate-card">
-                <div class="card ">
-                    <div class="card-body ">
-                        <div class="flex gap-5 items-center">
-                            <i class="fi fi-sr-check-circle text-info  text-4xl"></i>
-                            <div>
-                                <h5 class="text-md text-dark dark:text-darklink font-cal-sans-regular">
-                                    Document Upload</h5>
-                                <p class="text-xs mb-1">2.4GB
-                                    Junk File</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <x-custom.cards.wizard-card
+                    label="Document Upload"
+                    description="KYC Information"
+                    icon="check-circle" />
             </a>
             <a href="javascript:void(0)" class="animate-card">
-                <div class="card ">
-                    <div class="card-body ">
-                        <div class="flex gap-5 items-center">
-                            <i class="fi fi-sr-check-circle text-info  text-4xl"></i>
-                            <div>
-                                <h5 class="text-md text-dark dark:text-darklink font-medium font-cal-sans-regular">
-                                    Onboaring</h5>
-                                <p class="text-xs mb-1">2.4GB
-                                    Junk File</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <x-custom.cards.wizard-card
+                    label="Onboarding"
+                    description="Onboarding Customer"
+                    icon="cross-circle"
+                    color="error" />
             </a>
             <a href="javascript:void(0)" class="animate-card">
-                <div class="card ">
-                    <div class="card-body ">
-                        <div class="flex gap-5 items-center">
-                            <i class="fi fi-sr-check-circle text-info  text-4xl"></i>
-                            <div>
-                                <h5 class="text-md text-dark dark:text-darklink font-medium font-cal-sans-regular">
-                                    Approval</h5>
-                                <p class="text-xs mb-1">2.4GB
-                                    Junk File</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <x-custom.cards.wizard-card
+                    label="Approval"
+                    description="Final KYC Approval"
+                    icon="cross-circle"
+                    color="error" />
             </a>
         </div>
 
@@ -102,29 +69,26 @@
                 </button>
 
                 <button type="button"
-                    class="btn-md text-sm font-semibold rounded-md border-none bg-success hover:bg-primary hover:text-white cursor-pointer">
-                    <i class="fi fi-rr-check me-3"></i>
+                    class="btn-md flex items-center gap-2 border-0  bg-success text-white rounded  px-4 cursor-pointer">
+                    <i class="fi fi-br-check me-3"></i>
                     Save Progress
                 </button>
 
-                <button type="button"
-                    class="btn-md text-sm font-semibold rounded-md bg-primary  hover:bg-primary hover:text-white cursor-pointer">
-                    Submit For Approval
-                    <i class="fi fi-sr-arrow-right ms-3"></i>
-                </button>
+                <livewire:kyc.submit-kyc-for-approval :cif="$cif" :kyc="$cif->kyc" />
 
             </div>
         </div>
+
         <hr>
 
 
-        <form method="POST" action="{{ route('cif.kyc.store', $cif) }}">
+        <form method="POST" action="{{ route('cif.kyc.store', $cif) }}" enctype="multipart/form-data">
             @csrf
 
             <div class="grid grid-cols-12 gap-6 mt-5">
                 <div class="lg:col-span-3 md:col-span-3 sm:col-span-12 col-span-12">
 
-                    <div class="card">
+                    <div class="card sticky top-10">
                         <div class="card-header px-3 py-6 bg-blue-500 text-white rounded-t-xl">
                             <div
                                 class="border-2 border-primary rounded-full h-[72px] w-[72px] flex justify-center items-center relative mx-auto mb-4">
@@ -202,12 +166,22 @@
 
                         <div class="grid grid-cols-12 gap-6 mb-5">
                             <div class="lg:col-span-3 md:col-span-3 sm:col-span-12 col-span-12">
-                                <x-custom.form-inputs.select label="Ghana Card Status" name="ghana_card_status"
-                                    id="ghana_card_status" :options="$ghanaCardStatus" :selected="$cif->kyc->ghana_card_status" required />
+                                <x-custom.form-inputs.select
+                                    label="Ghana Card Status"
+                                    name="ghana_card_status"
+                                    id="ghana_card_status"
+                                    :options="$ghanaCardStatus"
+                                    :selected="$cif->kyc->ghana_card_status ?? ''"
+                                    required />
                             </div>
                             <div class="lg:col-span-3 md:col-span-6 sm:col-span-12 col-span-12">
-                                <x-custom.form-inputs.text-input name="ghana_card_number" id="ghana_card_number"
-                                    label="Ghana Card Number" :value="$cif->kyc->ghana_card_number" placeholder="GHA-XXXXXXXX-X" required />
+                                <x-custom.form-inputs.text-input
+                                    label="Ghana Card Number"
+                                    name="ghana_card_number"
+                                    id="ghana_card_number"
+                                    :value="$cif->kyc->ghana_card_number ?? ''"
+                                    placeholder="GHA-XXXXXXXX-X"
+                                    required />
                             </div>
                         </div>
 
@@ -217,7 +191,7 @@
 
                         <h4 class="text-lg mb-8">2. Address</h4>
 
-                        <livewire:region-district-form />
+                        <livewire:region-district-form :cif="$cif" />
 
 
                         <hr class="my-10">
@@ -226,30 +200,55 @@
 
                         <div class="grid grid-cols-12 gap-6 mb-6">
                             <div class="lg:col-span-3 md:col-span-3 sm:col-span-12 col-span-12">
-                                <x-custom.form-inputs.select label="Source Of Funds" name="source_of_funds"
-                                    id="source_of_funds" :options="$sourceOfFunds" required />
+                                <x-custom.form-inputs.select
+                                    label="Source Of Funds"
+                                    name="source_of_funds"
+                                    id="source_of_funds"
+                                    :options="$sourceOfFunds ?? old('source_of_funds')"
+                                    :selected="$cif->kyc->source_of_funds->value ?? old('source_of_funds')"
+                                    required />
                             </div>
                             <div class="lg:col-span-3 md:col-span-3 sm:col-span-12 col-span-12">
-                                <x-custom.form-inputs.select label="Employment Status" name="employment_status"
-                                    id="employment_status" :options="$employmentStatus" required/>
+                                <x-custom.form-inputs.select
+                                    label="Employment Status"
+                                    name="employment_status"
+                                    id="employment_status"
+                                    :options="$employmentStatus"
+                                    :selected="$cif->kyc->employment_status->value ?? old('employment_status')"
+                                    required/>
                             </div>
                             <div class="lg:col-span-6 md:col-span-6 sm:col-span-12 col-span-12">
-                                <x-custom.form-inputs.text-input name="occupation" id="occupation" label="Occupation" required />
+                                <x-custom.form-inputs.text-input
+                                    name="occupation"
+                                    id="occupation"
+                                    label="Occupation"
+                                    :value="$cif->kyc->occupation ?? old('occupation')"
+                                    required />
                             </div>
                         </div>
 
 
                         <div class="grid grid-cols-12 gap-6 mb-6">
                             <div class="lg:col-span-6 md:col-span-6 sm:col-span-12 col-span-12">
-                                <x-custom.form-inputs.text-input name="employer_name" id="employer_name"
-                                    label="Employer Name" required />
+                                <x-custom.form-inputs.text-input
+                                    label="Employer Name"
+                                    name="employer_name"
+                                    id="employer_name"
+                                    :value="$cif->kyc->employer_name ?? old('employer_name')"
+                                    placeholder="Ghana Health Service"
+                                    required />
                             </div>
                             <!-- <div class="lg:col-span-3 md:col-span-3 sm:col-span-12 col-span-12">
 
                         </div> -->
                             <div class="lg:col-span-3 md:col-span-3 sm:col-span-12 col-span-12">
-                                <x-custom.form-inputs.number-input name="monthly_income" id="monthly_income"
-                                    label="Monthly Income" required />
+                                <x-custom.form-inputs.number-input
+                                    label="Monthly Income"
+                                    name="monthly_income"
+                                    id="monthly_income"
+                                    :value="$cif->kyc->monthly_income ?? old('monthly_income')"
+                                    placeholder="500"
+                                    required />
                             </div>
                         </div>
 
@@ -265,14 +264,15 @@
                                         <i class="fi fi-sr-mode-portrait text-6xl text-info"></i>
                                         <h5 class="card-title mb-0">Passport Picture</h5>
                                         <p class="card-subtitle  mb-6">Upload passport picture.</p>
-                                        <form action="">
+                                        <div>
 
                                             <label class="block">
                                                 <span class="sr-only">Choose profile photo</span>
-                                                <input id="passport_photo" type="file" class="block w-full text-sm text-gray-500
-                                                                file:me-4 file:py-2 file:px-4
-                                                                file:rounded-md file:border-0
-                                                                file:text-sm file:font-semibold
+                                                <input name="passport_photo" type="file" class="block w-full text-sm text-gray-500
+                                                                file:mx-1 file:py-2
+                                                                file:px-10
+                                                                file:rounded-3 file:border-0
+                                                                file:text-sm file:font-normal
                                                                 file:bg-primary file:text-white
                                                                 hover:file:bg-primaryemphasis
                                                                 file:disabled:opacity-50 file:disabled:pointer-events-none
@@ -280,7 +280,7 @@
                                                                 dark:hover:file:bg-primary
                                                               ">
                                             </label>
-                                        </form>
+                                        </div>
 
                                     </div>
                                 </div>
@@ -291,14 +291,15 @@
                                         <i class="fi fi-sr-mode-landscape text-6xl text-primary"></i>
                                         <h5 class="card-title mb-0">Ghana Card</h5>
                                         <p class="card-subtitle  mb-6">Upload Ghana Card.</p>
-                                        <form action="">
+                                        <div>
 
                                             <label class="block">
                                                 <span class="sr-only">Choose profile photo</span>
-                                                <input id="ghana_card_photo" type="file" class="block w-full text-sm text-gray-500
-                                                                file:me-4 file:py-2 file:px-4
-                                                                file:rounded-md file:border-0
-                                                                file:text-sm file:font-semibold
+                                                <input name="ghana_card_photo" type="file" class="block w-full text-sm text-gray-500
+                                                                file:mx-1 file:py-2
+                                                                file:px-10
+                                                                file:rounded-3 file:border-0
+                                                                file:text-sm file:font-normal
                                                                 file:bg-primary file:text-white
                                                                 hover:file:bg-primaryemphasis
                                                                 file:disabled:opacity-50 file:disabled:pointer-events-none
@@ -306,7 +307,7 @@
                                                                 dark:hover:file:bg-primary
                                                               ">
                                             </label>
-                                        </form>
+                                        </div>
 
                                     </div>
                                 </div>
@@ -364,5 +365,9 @@
 
     </div>
 
-    <script></script>
+    @section('scripts')
+        <script type="text/javascript">
+
+        </script>
+    @endsection
 </x-layouts::app>
