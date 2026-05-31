@@ -37,17 +37,8 @@ class KycController extends Controller
      */
     public function create(Cif $cif, RegionService $regionService)
     {
-        try {
-            
-            $cif->lock(ttlMinutes: 15);
-        } catch (RecordLockedException $exception) {
-
-            return redirect()->back()->with('error', $exception->getMessage());
-        }
         return view('app.cif.kyc-compliance', [
             'cif' => $cif,
-            'sourceOfFunds' => SourceOfFundsEnum::options(),
-            'employmentStatus' =>EmploymentStatusEnum::options(),
             'ghanaCardStatus' => GhanaCardStatusEnum::options(),
             'regions' => $regionService->getRegions()
         ]);
@@ -58,11 +49,9 @@ class KycController extends Controller
      */
     public function store(StoreKycRequest $request, Cif $cif)
     {
-
-        if ($cif->kyc()->updateOrCreate($request->validatedKycData())) {
-            return redirect()->back()->with('success', 'KYC created successfully');
+        if ($cif->kyc()->updateOrCreate($request->validated())) {
+            return redirect()->route('cif.kyc.aml-step', $cif);
         }
-
     }
 
     /**
