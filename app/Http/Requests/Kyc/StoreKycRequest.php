@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Cif\Kyc;
+namespace App\Http\Requests\Kyc;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
