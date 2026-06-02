@@ -2,7 +2,7 @@
 
 namespace App\Models\Kyc;
 
-use App\Models\Cif\Kyc;
+use App\Models\Kyc\Kyc;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
