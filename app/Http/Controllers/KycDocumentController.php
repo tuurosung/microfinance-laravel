@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Kyc\Documents\StoreKycDocumentRequest;
 use App\Http\Requests\Kyc\Documents\UpdateKycDocumentRequest;
 use App\Models\Cif\Cif;
-use App\Models\Cif\KycDocument;
+use App\Models\Kyc\KycDocument;
 
 class KycDocumentController extends Controller
 {
