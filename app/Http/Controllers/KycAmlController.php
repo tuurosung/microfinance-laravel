@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Kyc\Aml\StoreKycAmlRequest;
 use App\Http\Requests\Kyc\Aml\UpdateKycAmlRequest;
 use App\Models\Cif\Cif;
-use App\Models\Cif\KycAml;
+use App\Models\Kyc\KycAml;
 
 class KycAmlController extends Controller
 {
@@ -35,7 +35,11 @@ class KycAmlController extends Controller
      */
     public function store(StoreKycAmlRequest $request, Cif $cif)
     {
-        if ($cif->kyc->kycAml()->updateOrCreate($request->validated())) {
+        $createOrUpdate = $cif->kyc->kycAml()->updateOrCreate([
+            'kyc_id' => $cif->kyc->kyc_id
+        ], $request->validated());
+
+        if ($createOrUpdate) {
             return redirect()->back()->with('success', 'AML information recorded successfully');
         }
     }
