@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Cif\Cif;
+namespace App\Http\Requests\Cif;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
