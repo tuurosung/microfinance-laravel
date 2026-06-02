@@ -2,7 +2,7 @@
 
 namespace App\Services\Kyc;
 
-use App\Models\Cif\Kyc;
+use App\Models\Kyc\Kyc;
 
 class ReferenceGenerator
 {
@@ -13,7 +13,7 @@ class ReferenceGenerator
         return (new self)->generateUniqueReference();
     }
 
-    
+
     /**
      * Prevent Collisions
      */
