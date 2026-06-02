@@ -10,10 +10,10 @@ use App\Enums\Kyc\SourceOfFunds;
 use App\Enums\Kyc\SourceOfFundsEnum;
 use App\Exceptions\RecordLockedException;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Cif\Kyc\StoreKycRequest;
-use App\Http\Requests\Cif\Kyc\UpdateKycRequest;
+use App\Http\Requests\Kyc\StoreKycRequest;
+use App\Http\Requests\Kyc\UpdateKycRequest;
 use App\Models\Cif\Cif;
-use App\Models\Cif\Kyc;
+use App\Models\Kyc\Kyc;
 use App\Services\Kyc\RegionService;
 
 class KycController extends Controller
@@ -39,7 +39,6 @@ class KycController extends Controller
     {
         return view('app.cif.kyc-compliance', [
             'cif' => $cif,
-            'ghanaCardStatus' => GhanaCardStatusEnum::options(),
             'regions' => $regionService->getRegions()
         ]);
     }
