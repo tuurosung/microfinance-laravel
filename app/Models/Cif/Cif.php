@@ -4,6 +4,7 @@ namespace App\Models\Cif;
 
 use App\Concerns\System\Lockable;
 use App\Enums\Cif\SexOptions;
+use App\Models\Kyc\Kyc;
 use App\Services\Cif\IdGenerator;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
