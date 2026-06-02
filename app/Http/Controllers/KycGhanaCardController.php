@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Kyc\GhanaCard\StoreKycGhanaCardRequest;
 use App\Http\Requests\UpdateKycGhanaCardRequest;
 use App\Models\Cif\Cif;
-use App\Models\Cif\KycGhanaCard;
+use App\Models\Kyc\KycGhanaCard;
 
 class KycGhanaCardController extends Controller
 {
@@ -30,7 +30,11 @@ class KycGhanaCardController extends Controller
      */
     public function store(StoreKycGhanaCardRequest $request, Cif $cif)
     {
-        if ($cif->kyc->ghanaCard()->create($request->validated())) {
+        $recordCreated = $cif->kyc->ghanaCard()->updateOrCreate([
+            'kyc_id' => $cif->kyc->kyc_id
+        ], $request->validated());
+
+        if ($recordCreated) {
             return redirect()->back()->with('success', "Ghana Card Updated Successfully");
         }
     }
