@@ -26,13 +26,13 @@ class StoreKycGhanaCardRequest extends FormRequest
     {
         return [
 
-            'ghana_card_status' => [
+            'card_status' => [
                 'required',
                 'string',
                 new Enum(GhanaCardStatusEnum::class)
             ],
 
-            'ghana_card_number' => [
+            'card_number' => [
                 'required',
                 'string',
                 'regex:/^GHA-\d{9}-\d$/',
