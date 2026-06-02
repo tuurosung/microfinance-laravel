@@ -5,9 +5,13 @@ namespace App\Models\Kyc;
 use App\Models\Kyc\Kyc;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class KycGhanaCard extends Model
 {
+
+    use SoftDeletes;
+
     protected $table = 'kyc_ghana_cards';
     protected $primaryKey = 'id';
     protected $keyType = 'integer';
@@ -15,8 +19,8 @@ class KycGhanaCard extends Model
 
 
     protected $fillable =  [
-        'ghana_card_status',
-        'ghana_card_number'
+        'card_status',
+        'card_number'
     ];
 
 
