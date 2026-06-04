@@ -17,24 +17,24 @@
         <x-custom.cards.wizard-card
             label="AML Info"
             description="KYC Evaluation"
-            color="{{ $cif->kyc->kycAml ? 'primary' : 'error' }}"
-            icon="{{ $cif->kyc->kycAml ? 'check-circle' : 'cross-circle' }}"
+            color="{{ $cif->kyc?->kycAml ? 'primary' : 'error' }}"
+            icon="{{ $cif->kyc?->kycAml ? 'check-circle' : 'cross-circle' }}"
             href="{{ route('cif.kyc.aml-step', $cif) }}" />
     </a>
     <a href="javascript:void(0)" class="animate-card">
         <x-custom.cards.wizard-card
             label="Ghana Card"
             description="Ghana Card Details"
-            color="{{ $cif->kyc->ghanaCard ? 'primary' : 'error' }}"
-            icon="{{ $cif->kyc->ghanaCard ? 'check-circle' : 'cross-circle' }}"
+            color="{{ $cif->kyc?->ghanaCard ? 'primary' : 'error' }}"
+            icon="{{ $cif->kyc?->ghanaCard ? 'check-circle' : 'cross-circle' }}"
             href="{{ route('cif.kyc.ghana-card-step', $cif) }}" />
     </a>
     <a href="javascript:void(0)" class="animate-card">
         <x-custom.cards.wizard-card
             label="Documents"
             description="Final KYC Approval"
-            color="{{ $cif->kyc->kycDocuments ? 'primary' : 'error' }}"
-            icon="{{ $cif->kyc->kycDocuments ? 'check-circle' : 'cross-circle' }}"
+            color="{{ $cif->kyc?->kycDocuments ? 'primary' : 'error' }}"
+            icon="{{ $cif->kyc?->kycDocuments ? 'check-circle' : 'cross-circle' }}"
             href="{{ route('cif.kyc.documents-step', $cif) }}" />
     </a>
 </div>
