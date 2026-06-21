@@ -6,27 +6,29 @@
 @import url('https://cdn-uicons.flaticon.com/4.0.0/uicons-solid-rounded/css/uicons-solid-rounded.css');
 @import url('https://cdn-uicons.flaticon.com/4.0.0/uicons-regular-rounded/css/uicons-regular-rounded.css');
 
-@import 'tailwindcss';
-@import '../../vendor/livewire/flux/dist/flux.css';
 
-@import "flowbite/src/themes/default";
-@plugin "flowbite/plugin";
-@source "../../node_modules/flowbite";
-
+@import "tailwindcss";
 @import './ui.css';
-/* @import './ui-pro.css'; */
 @import './just-css.css';
 
+/* Preline UI */
+@source "../../node_modules/preline/dist/*.js";
+@import "../../node_modules/preline/variants.css";
 
 
+/* @source "../../node_mdules/@preline/select/*.js"; */
+/* Plugins */
+/* @plugin "@"; */
+/* Preline Themes */
 
 
+/* Custom Utilities */
+@import './utilities.css';
 
 
-/* @custom-variant dark (&:where(.dark, .dark *)); */
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    /* --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'; */
     --font-cal-sans-regular: 'Cal Sans', sans-serif;
     --font-crimson-pro-regular: 'Crimson Pro', serif;
     --font-crimson-pro-bold: 'Crimson Pro', serif;
@@ -39,8 +41,9 @@
     --font-open-sans-bold: 'Open Sans', sans-serif;
     --font-urbanist-regular: 'Urbanist', sans-serif;
     --font-urbanist-bold: 'Urbanist', sans-serif;
+    --font-sans: "Avante-Md", ui-sans-serif, system-ui, sans-serif;
 
-    --font-body: var(--font-inter-regular);
+    --font-body: var(--font-sans);
     --font-heading: var(--font-sans);
 
     --color-zinc-50: #fafafa;
@@ -84,7 +87,7 @@
 }
 
 [data-flux-label] {
-    @apply  !mb-0 !leading-tight;
+    @apply !mb-0 !leading-tight;
 }
 
 input:focus[data-flux-control],
@@ -107,18 +110,15 @@ select:focus[data-flux-control] {
             }
         }
     }
-
-
 }
 
-/* Custom Styling */
+
+/* Custom Styling ------------------------------------------------------------ */
+
 
 /* Bootstrap row equivalent */
 .row {
-    display: flex;
-    flex-wrap: wrap;
-    margin-right: -15px;
-    margin-left: -15px;
+    @apply flex
 }
 
 .col-md-6 {
@@ -132,17 +132,154 @@ select:focus[data-flux-control] {
 i[class^="fi-rr-"]::before,
 i[class*=" fi-rr-"]::before,
 span[class^="fi-rr-"]::before,
-span[class*="fi-rr-"]::before {
+span[class*="fi-rr-"]::before,
+
+i[class^="fi-br-"]::before,
+i[class*=" fi-br-"]::before,
+span[class^="fi-br-"]::before,
+span[class*="fi-br-"]::before {
     font-family: uicons-regular-rounded !important;
     font-style: normal;
     font-weight: normal !important;
     font-variant: normal;
     text-transform: none;
-    line-height: 1.42587 !important;
+    line-height: 1 !important;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 
     /* align middle */
     vertical-align: middle;
     display: inline-block;
+}
+
+i[class^="fi-rr-"]::before,
+i[class*=" fi-rr-"]::before,
+span[class^="fi-rr-"]::before,
+span[class*="fi-rr-"]::before,
+
+i[class^="fi-br-"]::before,
+i[class*=" fi-br-"]::before,
+span[class^="fi-br-"]::before,
+span[class*="fi-br-"]::before {
+
+    line-height: 1 !important;
+    margin-top: -4px !important;
+
+}
+
+
+
+
+
+.fi,
+.fi::before {
+    line-height: 1.2 !important;
+}
+
+.form-control {
+    @apply py-2.5 px-4
+}
+
+
+.bg-pink {
+    background-color: oklch(59.2% 0.249 0.584);
+}
+
+
+.datepicker-picker {
+    background-color: #fff !important;
+    ;
+}
+
+.datepicker .selected {
+    background-color: var(--color-primary);
+}
+
+
+.tables {
+    @apply w-full text-sm text-left table
+}
+
+.table thead {
+    @apply text-sm text-white bg-gray-700 border-b border-t
+}
+
+.table tr {
+    @apply border-b
+}
+
+.table tr td {
+    @apply text-dark
+}
+
+.table thead th,
+.table tbody td {
+    @apply py-2 px-4 text-[13px]
+}
+
+/* .modal-close-btn {
+    padding-block: calc(var(--spacing) * 2);
+    padding-inline: calc(var(--spacing) * 2);
+    @apply text-sm font-medium rounded-md border border-gray-200 bg-white text-gray-800 shadow-sm disabled: opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600
+} */
+
+@layer components {
+    .form-label {
+        display: block;
+        margin-bottom: calc(var(--spacing) * 2);
+        color: color-mix(in oklab, var(--text-base), 40%, #000000);
+        font-size: 13px !important;
+        font-weight: 600 !important;
+    }
+}
+
+
+@layer utilities {
+    .dropdown-item {
+        @apply flex items-center gap-x-3.5 py-2 px-3 rounded-md text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300 dark:focus:bg-gray-700
+    }
+
+
+}
+
+
+
+.docs-left-sidebar .scroll-sidebar {
+    height: calc(100vh - 70px)
+}
+
+.left-sidebar .scroll-sidebar {
+    height: calc(100vh - 180px)
+}
+
+.left-sidebar .hs-accordion i,
+.left-sidebar li a .hide-menu,
+.left-sidebar li a i {
+    flex-shrink: 0
+}
+
+#sidebarnav .sidebar-item .sidebar-link {
+    align-items: center;
+    border-radius: 7px;
+    display: flex;
+    font-size: 14px;
+    font-weight: 400;
+    gap: 15px;
+    line-height: 25px;
+    margin: 0 0 2px;
+    padding: 8px 12px;
+    position: relative;
+    text-decoration: none;
+    white-space: nowrap
+}
+
+#sidebarnav .sidebar-item .second-level {
+    padding-left: 30px
+}
+
+.brand-logo img {
+    height: -moz-fit-content;
+    height: fit-content;
+    max-width: -moz-fit-content;
+    max-width: fit-content
 }
