@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('phone_number')->unique();
             $table->string('email')->nullable();
             $table->date('date_of_birth');
+            $table->enum('sex', ['male', 'female'])->nullable();
             $table->text('residential_address');
 
             // KYC Compliance
