@@ -15,5 +15,5 @@
         value="{{ $value }}"
         placeholder="{{ $placeholder }}"
         type="text"
-        class="py-2.5 px-4 form-control"  {{ $required ? 'required' : '' }}>
+        class="py-2.5 px-4 form-control"  {{ $required ? 'required' : '' }} {{ $attributes }}>
 </div>
