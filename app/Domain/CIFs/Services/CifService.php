@@ -4,6 +4,7 @@ namespace App\Domain\CIFs\Services;
 
 use App\Domain\CIFs\Contracts\CifRepositoryInterface;
 use App\Domain\CIFs\Models\Cif;
+use App\Domain\KYC\Contracts\KycRepositoryInterface;
 
 class CifService
 {
@@ -12,6 +13,7 @@ class CifService
      */
     public function __construct(
         private readonly CifRepositoryInterface $cifRepositoryInterface,
+        private readonly KycRepositoryInterface $kycRepositoryInterface,
         private Cif $cif
     ){}
 
@@ -23,6 +25,9 @@ class CifService
         if (! $cif) {
             throw new \Exception("Unable to create new cif");
         }
+
+        // create kyc row
+        // $this->kycRepositoryInterface->updateOrCreate($cif, $data);
 
         return $cif;
     }
