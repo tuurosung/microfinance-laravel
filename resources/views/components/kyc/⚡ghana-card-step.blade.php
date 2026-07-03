@@ -26,7 +26,7 @@ new class extends Component {
     {
         $this->cardStatusOptions = GhanaCardStatusEnum::options();
         $this->card_number = $kyc->ghanaCard?->card_number ?? null;
-        $this->card_status = $kyc->ghanaCard?->card_status ?? null;
+        $this->card_status = $kyc->ghanaCard?->card_status->value ?? null;
     }
 
     protected function rules(): array
