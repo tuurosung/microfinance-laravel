@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('email')->nullable();
             $table->date('date_of_birth');
             $table->enum('sex', ['male', 'female'])->nullable();
+            $table->enum('marital_status', ['single','married', 'divorced'])->nullable();
             $table->text('residential_address');
 
             // KYC Compliance
@@ -46,6 +47,9 @@ return new class extends Migration
                 'suspended',
                 'blacklisted'
             ])->default('draft');
+
+            // Check Sum Verification
+            $table->string('check_sum')->nullable();
 
             // Security
             $table->softDeletes();

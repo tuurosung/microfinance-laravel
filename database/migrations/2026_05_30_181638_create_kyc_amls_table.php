@@ -38,6 +38,9 @@ return new class extends Migration
             $table->boolean('requires_manual_review')->default(false);
             $table->text('manual_review_reason')->nullable();
 
+            // Check sum verification
+            $table->string('check_sum')->nullable();
+
             // Timestamps
             $table->softDeletes();
             $table->timestamps();

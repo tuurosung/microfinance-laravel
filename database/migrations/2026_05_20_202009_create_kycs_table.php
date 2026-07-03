@@ -91,9 +91,12 @@ return new class extends Migration
             // Tier upgrade guidance
             $table->text('tier_upgrade_requirements')->nullable();
 
+            // Check Sum Verification
+            $table->string('check_sum')->nullable();
+            $table->string("master_check_sum")->nullable();
+
             $table->softDeletes(); // Regulatory — never hard delete
             $table->timestamps();
-
 
             // Constraint and Idempotency
             $table->unique('cif_id');

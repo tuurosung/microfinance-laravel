@@ -26,6 +26,9 @@ return new class extends Migration
             $table->foreignId('verified_by')->nullable()->constrained('users');
             $table->timestamp('verified_at')->nullable();
 
+            // Check Sum Verification
+            $table->string('check_sum')->nullable();
+
             $table->softDeletes();
             $table->timestamps();
         });
