@@ -12,9 +12,6 @@ class OpenAccountHandler extends AccountSessionHandler
     protected const ACCOUNT_DATA_CACHE_PREFIX = 'account_creation_data';
 
 
-
-
-
     /**
      * Store account information against the user's active session
      * TTL is kept in sync with the session TTL, so that the data is automatically cleared when the session expires
