@@ -10,7 +10,7 @@
         Close
     </button>
     <button type="submit"
-        class="btn-md text-sm font-semibold rounded-md border border-transparent bg-primary text-white hover:bg-primaryemphasis disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 cursor-pointer">
+        class="btn-md bg-blue-600 text-sm font-semibold rounded-md border border-transparent text-white hover:bg-primaryemphasis disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 cursor-pointer">
         <i class="fi fi-rr-{{ $icon }} me-3"></i>
         {{ $btnLabel }}
     </button>
