@@ -38,13 +38,11 @@ class StoreCifRequest extends FormRequest
                 'string',
                 'email',
                 'max:255',
-                'unique:users, email',
             ],
             'phone_number' => [
                 'required',
                 'string',
                 'max:255',
-                'unique:users,phone_number'
             ],
             'secondary_phone' => [
                 'required',
