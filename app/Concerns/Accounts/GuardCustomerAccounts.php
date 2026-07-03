@@ -9,7 +9,7 @@ use App\Enums\Accounts\AccountStatusEnum;
 
 trait GuardCustomerAccounts
 {
-    private function guardDepositatable(Account $account): void
+    private function guardDepositable(Account $account): void
     {
         if (! in_array($account->status , [AccountStatusEnum::DORMANT, AccountStatusEnum::ACTIVE])) {
             throw new \DomainException("Account {$account->account_number} is {$account->status}; deposits not allowed.");
