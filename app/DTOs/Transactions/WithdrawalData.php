@@ -1,0 +1,21 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\DTOs\Transactions;
+
+use App\Enums\Transactions\MomoProviderEnum;
+use App\Enums\Transactions\TransactionChannelEnum;
+
+final readonly class WithdrawalData
+{
+    public function __construct(
+        public int $amountPesewas,
+        public string $idempotencyKey,
+        public int $userId,
+        public TransactionChannelEnum $transactionChannel,
+        public ?string $narration = null,
+        public ?MomoProviderEnum $momoProvider = null,
+        public ?string $walletNumber = null
+    ) {}
+}
