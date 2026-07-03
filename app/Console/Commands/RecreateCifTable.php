@@ -40,14 +40,15 @@ class RecreateCifTable extends Command
         $cif_migration = database_path('migrations/2026_05_14_094950_create_cifs_table.php');
         $kyc_migration = database_path('migrations/2026_05_20_202009_create_kycs_table.php');
         $kyc_aml_migration = database_path('migrations/2026_05_30_181638_create_kyc_amls_table.php');
-        $kyc_documents_migration = database_path('migrations/2026_05_29_002443_create_kyc_documents_table.php');
+        $kyc_documents_migration = database_path('migrations/2026_05_30_033031_create_kyc_documents_table.php');
         $kyc_ghana_card_migration = database_path('migrations/2026_05_30_181813_create_kyc_ghana_cards_table.php');
 
         $migrations = [
             $cif_migration,
             $kyc_migration,
             $kyc_aml_migration,
-            $kyc_documents_migration
+            $kyc_documents_migration,
+            $kyc_ghana_card_migration,
         ];
 
         foreach ($migrations as $migration) {
