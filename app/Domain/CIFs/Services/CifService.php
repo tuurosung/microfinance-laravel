@@ -5,6 +5,7 @@ namespace App\Domain\CIFs\Services;
 use App\Domain\CIFs\Contracts\CifRepositoryInterface;
 use App\Domain\CIFs\Models\Cif;
 use App\Domain\KYC\Contracts\KycRepositoryInterface;
+use Illuminate\Database\Eloquent\Collection;
 
 class CifService
 {
@@ -33,8 +34,22 @@ class CifService
     }
 
 
+    public function allCifs(): Collection
+    {
+        return $this->cifRepositoryInterface->allCifs();
+    }
+
+
     public function getCifs()
     {
         return $this->cif->all();
+    }
+
+
+    public function getCifsAsArray(): array
+    {
+        return $this->getCifs()
+            ->mapWithKeys(fn($cif) =>[ $cif->cif_id => $cif->full_name ])
+            ->toArray();
     }
 }
