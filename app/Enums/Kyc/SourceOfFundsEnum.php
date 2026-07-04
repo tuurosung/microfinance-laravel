@@ -2,8 +2,13 @@
 
 namespace App\Enums\Kyc;
 
+use App\Concerns\EnumTrait;
+
 enum SourceOfFundsEnum: string
 {
+
+    use EnumTrait;
+
     case SALARY = 'salary';
     case BUSINESS_INCOME = 'business_income';
     case INVESTMENT = 'investment';
@@ -12,20 +17,4 @@ enum SourceOfFundsEnum: string
     case PENSION = 'pension';
     case OTHER = 'other';
 
-
-    public function label(): string
-    {
-        return str($this->name)
-            ->replace('_', ' ')
-            ->title();    }
-
-
-    public static function options(): array
-    {
-        return collect(self::cases())
-            ->mapWithKeys(fn ($sourceOfFunds) => [
-                $sourceOfFunds->value => $sourceOfFunds->label()
-            ])
-            ->toArray();
-    }
 }
