@@ -2,10 +2,10 @@
 
 namespace App\Domain\Accounts\Http\Controllers;
 
+use App\Domain\Accounts\Http\Requests\AccountTypes\StoreAccountTypeRequest;
+use App\Domain\Accounts\Http\Requests\AccountTypes\UpdateAccountTypeRequest;
+use App\Domain\Accounts\Models\AccountType;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreAccountTypeRequest;
-use App\Http\Requests\UpdateAccountTypeRequest;
-use App\Models\Accounts\AccountType;
 
 class AccountTypeController extends Controller
 {
