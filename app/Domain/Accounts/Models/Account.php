@@ -21,7 +21,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Account extends Model
 {
 
-    protected $primaryKey = 'account_number';
+    protected $primaryKey = 'account_id';
     protected $keyType = 'string';
     public $incrementing = false;
 
