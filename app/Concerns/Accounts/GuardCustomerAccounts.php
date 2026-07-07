@@ -11,11 +11,11 @@ trait GuardCustomerAccounts
 {
     private function guardDepositable(Account $account): void
     {
-        if (! in_array($account->status , [AccountStatusEnum::DORMANT, AccountStatusEnum::ACTIVE])) {
+        if (!in_array($account->status , [AccountStatusEnum::DORMANT, AccountStatusEnum::ACTIVE])) {
             throw new \DomainException("Account {$account->account_number} is {$account->status}; deposits not allowed.");
         }
 
-        $this->guardKycApproved($account);
+        // $this->guardKycApproved($account);
     }
 
 
