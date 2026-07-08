@@ -41,6 +41,7 @@ class AccountService
                 'account_number'          => $this->accountNumbers->next($type, '002'),
                 'opened_by'               => auth()->user()->id,
             ]);
+
         });
     }
 
