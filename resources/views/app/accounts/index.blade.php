@@ -25,7 +25,7 @@
                         class="block w-full max-w-96 ps-9 pe-3 py-2 bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand shadow-xs placeholder:text-body"
                         placeholder="Search">
                 </div>
-                
+
             </div>
 
             <table class="table">
@@ -52,9 +52,6 @@
                         </th>
                         <th scope="col">
                             Primary Cif
-                        </th>
-                        <th scope="col">
-                            Opening Balance
                         </th>
                         <th scope="col">
                             Min. Balance
@@ -93,9 +90,6 @@
                         </td>
                         <td>
                             {{ $account->primaryCif?->full_name }}
-                        </td>
-                        <td>
-                            {{ $account->opening_balance }}
                         </td>
                         <td>
                             {{ $account->minimum_balance_pesewas }}
