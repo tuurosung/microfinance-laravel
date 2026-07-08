@@ -19,23 +19,10 @@ class LedgerService implements LedgerInterface
 
     public function post(JournalEntry $entry): string
     {
-        // dd($entry);
         return DB::transaction(function() use($entry): string {
 
-            // dd($entry);
             $debit = Account::with("gl")->lockForUpdate()->findOrFail($entry->debitAccountId);
-            Log::error("Error", [$debit]);
-
-            if (! $debit) {
-                Log::info("Error fetching debit account");
-            }
-
             $credit = Account::with("gl")->lockForUpdate()->findOrFail($entry->creditAccountId);
-            Log::error("Error", [$credit]);
-
-            if (! $credit) {
-                Log::info("Error fetching credit account");
-            }
 
             $this->guardPostable($debit);
             $this->guardPostable($credit);
@@ -45,8 +32,6 @@ class LedgerService implements LedgerInterface
             $this->guardSufficientFunds($debit, $credit, $entry->amountPesewas);
 
             $idempotencyHash = $entry->idempotencyHash();
-
-            Log::info($idempotencyHash);
 
             // Idempotent: a retried post returns the original reference.
             $existing = Transaction::where("idempotency_hash", $idempotencyHash)->first();
