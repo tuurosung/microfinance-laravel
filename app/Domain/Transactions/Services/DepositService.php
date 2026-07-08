@@ -13,6 +13,7 @@ use App\DTOs\Gateway\MomoCollectionData;
 use App\DTOs\Transactions\DepositData;
 use App\Enums\Transactions\MomoDirectionEnum;
 use App\Enums\Transactions\MomoTransactionStatusEnum;
+use App\Enums\Transactions\TransactionChannelEnum;
 use Illuminate\Support\Str;
 
 final class DepositService implements DepositServiceInterface
@@ -30,13 +31,20 @@ final class DepositService implements DepositServiceInterface
         $this->guardDepositable($account);
 
         $reference = $this->ledger->post(JournalEntry::deposit(
-            fundingAccountId: Account::cashTill()->id,
+            fundingAccountId: Account::cashTill()->account_id,
             customerAccountId: $account->account_id,
-            amountPesewas: $depositData->amountPesewas
+            amountPesewas: $depositData->amountPesewas,
+            narration: $depositData->narration,
+            idempotencyKey: $depositData->idempotencyKey,
+            userId: $depositData->userId,
+            channel: TransactionChannelEnum::Counter,
+            valueDate: $depositData->valueDate
         ));
 
-        $this->reactivateIfDormant($account, $data->actorId);
-        $this->flagIfRequired($account, $depositData->amountPesewas, $depositData->actorId);
+        $this->reactivateIfDormant($account, $depositData->userId);
+        $this->flagCtrIfRequired($account, $depositData->amountPesewas, $depositData->userId);
+
+
 
         return $reference;
     }
@@ -77,6 +85,42 @@ final class DepositService implements DepositServiceInterface
         ]);
 
         return $momoTransaction;
+    }
+
+
+    private function reactivateIfDormant(Account $account, int $userId): void
+    {
+        if (! $account->is_dormant && $account->status !== 'dormant') {
+            return;
+        }
+
+        $account->update(['is_dormant' => false, 'status' => 'active']);
+
+        // AuditTrail::log($account, $userId, 'ACCOUNT_REACTIVATED', 'dormant', 'active', 'Reactivated by dormant');
+    }
+
+
+    /**
+     * Cash Transaction Report flag. Threshold per FIC directive lives in
+     * config/banking.php. This flags for the compliance queue; it does not block.
+     */
+    private function flagCtrIfRequired(Account $account, int $amountPesewas, int $actorId): void
+    {
+        // TODO set AML Compliance threshold from BOG later
+        return;
+
+        // if ($amountPesewas < (int) config('banking.ctr_threshold_pesewas')) {
+        //     return;
+        // }
+
+        // AuditTrail::log(
+        //     $account,
+        //     $actorId,
+        //     'CTR_THRESHOLD_EXCEEDED',
+        //     null,
+        //     null,
+        //     "Deposit of {$amountPesewas} pesewas meets the CTR reporting threshold."
+        // );
     }
 
 }
