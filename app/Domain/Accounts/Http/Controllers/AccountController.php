@@ -1,18 +1,25 @@
 <?php
 
+declare (strict_types= 1);
+
 namespace App\Domain\Accounts\Http\Controllers;
 
 use App\Domain\Accounts\Http\Requests\StoreAccountRequest;
 use App\Domain\Accounts\Models\Account;
+use App\Domain\Accounts\Services\AccountService;
+use App\Domain\Transactions\Services\LedgerService;
 use App\Enums\Accounts\AccountMandateEnum;
 use App\Enums\Accounts\AccountTypeEnum;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Accounts\DepositAccounts\UpdateAccountRequest;
 use App\Services\Accounts\OpenAccountHandler;
 
 class AccountController extends Controller
 {
     public function __construct(
-        protected OpenAccountHandler $openAccountHandler
+        protected OpenAccountHandler $openAccountHandler,
+        protected AccountService $accountService,
+        private readonly LedgerService $ledgerService
     ){}
 
 
@@ -49,9 +56,7 @@ class AccountController extends Controller
     {
         $data = $request->validated();
 
-        // dd($data);
-
-        Account::create($data);
+        $this->accountService->open($data);
 
         return redirect()->back()->with('success', 'Account created successfully.');
     }
@@ -61,8 +66,11 @@ class AccountController extends Controller
      */
     public function show(Account $account)
     {
+        $balances = $this->ledgerService->balances($account);
+
         return view('app.accounts.accounts.view-account', [
-            "account" => $account
+            "account" => $account,
+            "balances"=> $balances
         ]);
     }
 
