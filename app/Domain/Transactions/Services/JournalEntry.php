@@ -97,12 +97,12 @@ final readonly class JournalEntry
      *   DR customer liability · CR payout asset
      */
     public static function withdrawal(
-        int $customerAccountId,
-        int $payoutAccountId,
+        string $customerAccountId,
+        string $payoutAccountId,
         int $amountPesewas,
         string $narration,
         string $idempotencyKey,
-        int $actorId,
+        int $userId,
         TransactionChannelEnum $channel = TransactionChannelEnum::Counter,
         ?CarbonImmutable $valueDate = null,
     ): self {
@@ -110,10 +110,10 @@ final readonly class JournalEntry
             debitAccountId: $customerAccountId,
             creditAccountId: $payoutAccountId,
             amountPesewas: $amountPesewas,
-            type: TransactionTypeEnum::Withdrawal,
+            transactionType: TransactionTypeEnum::Withdrawal,
             narration: $narration,
             idempotencyKey: $idempotencyKey,
-            actorId: $actorId,
+            userId: $userId,
             channel: $channel,
             valueDate: $valueDate,
         );
