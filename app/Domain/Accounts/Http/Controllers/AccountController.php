@@ -30,8 +30,10 @@ class AccountController extends Controller
     {
         // TODO Defer to service for fetching records
 
+        $accounts = Account::customerFacing()->get();
+
         return view('app.accounts.index', [
-            'accounts'=> Account::all()
+            'accounts'=> $accounts
         ]);
     }
 
