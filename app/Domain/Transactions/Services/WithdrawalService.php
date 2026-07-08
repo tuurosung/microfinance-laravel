@@ -26,7 +26,7 @@ final class WithdrawalService implements WithdrawalServiceInterface
 {
     use GuardCustomerAccounts;
 
-    
+
     public function __construct(
         private readonly LedgerInterface $ledger,
         private readonly GatewayManagerInterface $gateway
@@ -45,34 +45,39 @@ final class WithdrawalService implements WithdrawalServiceInterface
             return $existing;
         }
 
+
         $request = DB::transaction(function () use ($account, $withdrawalData): WithdrawalRequest {
 
-            $account = Account::with(['gl', 'cif'])->lockForUpdate()->findOrFail($account->id);
+            $account = Account::with(['gl', 'cif'])->lockForUpdate()->findOrFail($account->account_id);
 
             $this->guardWithdrawable($account);
             $this->guardBalanceCoversWithdrawal($account, $withdrawalData->amountPesewas);
 
+            // dd($withdrawalData);
+
             $request = WithdrawalRequest::create([
                 'reference'       => (string) Str::uuid(),
-                'account_id'      => $account->id,
+                'account_id'      => $account->account_id,
                 'amount_pesewas'  => $withdrawalData->amountPesewas,
                 'narration'       => $withdrawalData->narration,
-                'channel'         => $withdrawalData->channel,
+                'channel'         => $withdrawalData->transactionChannel,
                 'momo_provider'   => $withdrawalData->momoProvider,
                 'wallet_number'   => $withdrawalData->walletNumber,
                 'idempotency_key' => $withdrawalData->idempotencyKey,
-                'maker_id'        => $withdrawalData->actorId,
+                'maker_id'        => $withdrawalData->userId,
                 'status'          => WithdrawalRequestStatusEnum::PendingApproval,
             ]);
 
-            if ($this->needsApproval($withdrawalData->amountPesewas)) {
-                $this->holdFunds($request);
-                AuditTrail::log($request, $withdrawalData->userId, 'WITHDRAWAL_REQUESTED', null, WithdrawalRequestStatusEnum::PendingApproval->value);
+            // dd($request);
 
-                return $request;
-            }
+            // if ($this->needsApproval($withdrawalData->amountPesewas)) {
+            //     $this->holdFunds($request);
+            //     AuditTrail::log($request, $withdrawalData->userId, 'WITHDRAWAL_REQUESTED', null, WithdrawalRequestStatusEnum::PendingApproval->value);
 
-            if ($withdrawalData->channel === TransactionChannelEnum::Counter) {
+            //     return $request;
+            // }
+
+            if ($withdrawalData->transactionChannel === TransactionChannelEnum::Counter) {
                 $this->postCounterWithdrawal($request);
 
                 return $request;
@@ -284,11 +289,11 @@ final class WithdrawalService implements WithdrawalServiceInterface
     {
         $reference = $this->ledger->post(JournalEntry::withdrawal(
             customerAccountId: $withdrawalRequest->account_id,
-            payoutAccountId: Account::cashTill()->id,
+            payoutAccountId: Account::cashTill()->account_id,
             amountPesewas: $withdrawalRequest->amount_pesewas,
             narration: $request->narration ?? 'Cash withdrawal',
             idempotencyKey: $withdrawalRequest->idempotency_key,
-            actorId: $withdrawalRequest->maker_id,
+            userId: $withdrawalRequest->maker_id,
             channel: TransactionChannelEnum::Counter,
         ));
 
