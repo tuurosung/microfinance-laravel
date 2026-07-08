@@ -21,12 +21,12 @@ trait GuardCustomerAccounts
 
     private function guardWithdrawable(Account $account): void
     {
-        if ($account->status !== 'active')
+        if ($account->status->value !== 'active')
         {
             throw new \DomainException("Account {$account->account_number} is not active; withdrawals are not allowed");
         }
 
-        $this->guardKycApproved($account);
+        // $this->guardKycApproved($account);
     }
 
 
