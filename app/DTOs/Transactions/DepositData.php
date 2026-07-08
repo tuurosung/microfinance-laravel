@@ -11,7 +11,7 @@ final readonly class DepositData
     public function __construct(
         public int $amountPesewas,
         public string $idempotencyKey,
-        public string $userId,
+        public int $userId,
         public TransactionChannelEnum $transactionChannel,
         public ?string $narration = null,
         public ?CarbonImmutable $valueDate = null,
