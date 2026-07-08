@@ -28,7 +28,7 @@ new class extends Component
 <div>
     <x-modals.modal modalId="new-deposit-modal">
 
-        <form method="POST" action="{{ route('transactionsdeposit', $account) }}">
+        <form method="POST" action="{{ route('transactions.deposit', $account) }}">
 
             <x-modals.modal-header modalId="new-deposit-modal" modalTitle="New Deposit" />
 
