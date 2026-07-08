@@ -17,7 +17,7 @@ enum AccountTypeEnum: string
     case InterestIncome = 'interest_income';
     case CashTill = 'cash_till';
     case MomoFloat = 'momo_float';
-    
+
 
     /**
      * System accounts have no owning CIF — cash_till, loan_float,
@@ -30,6 +30,16 @@ enum AccountTypeEnum: string
             self::Savings, self::Current, self::FixedDeposit => false,
             default => true,
         };
+    }
+
+
+    /**
+     * Summary of systemTypes
+     * @return AccountTypeEnum[]
+     */
+    public static function systemTypes(): array
+    {
+        return array_filter(self::cases(), fn (self $type) => $type->isSystemAccount());
     }
 
 
