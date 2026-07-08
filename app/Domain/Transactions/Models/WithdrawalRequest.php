@@ -7,8 +7,11 @@ namespace App\Domain\Transactions\Models;
 use App\Domain\Accounts\Models\Account;
 use App\Enums\Transactions\MomoProviderEnum;
 use App\Enums\Transactions\TransactionChannelEnum;
+use App\Enums\Transactions\WithdrawalRequestStatusEnum;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class WithdrawalRequest extends Model
 {
@@ -37,7 +40,7 @@ class WithdrawalRequest extends Model
             "amount_pesewas" => "integer",
             "channel"=> TransactionChannelEnum::class,
             "momo_provider"=> MomoProviderEnum::class,
-            // "status"=> WithdrawalRequestStatusEnum::class,
+            "status"=> WithdrawalRequestStatusEnum::class,
             "decided_at" => "datetime"
         ];
     }
@@ -54,18 +57,18 @@ class WithdrawalRequest extends Model
     //     return $this->belongsTo(Lien::class);
     // }
 
-    // public function maker(): BelongsTo
-    // {
-    //     return $this->belongsTo(User::class, 'maker_id');
-    // }
+    public function maker(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'maker_id');
+    }
 
-    // public function checker(): BelongsTo
-    // {
-    //     return $this->belongsTo(User::class, 'checker_id');
-    // }
+    public function checker(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'checker_id');
+    }
 
-    // public function momoTransaction(): HasOne
-    // {
-    //     return $this->hasOne(MomoTransaction::class);
-    // }
+    public function momoTransaction(): HasOne
+    {
+        return $this->hasOne(MomoTransaction::class);
+    }
 }
