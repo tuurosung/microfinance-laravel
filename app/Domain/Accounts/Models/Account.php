@@ -5,6 +5,7 @@ namespace App\Domain\Accounts\Models;
 use App\Casts\MoneyCast;
 use App\Domain\Accounts\Models\ChartOfAccount;
 use App\Domain\CIFs\Models\Cif;
+use App\Domain\Transactions\Models\Transaction;
 use App\Domain\Transactions\Models\WithdrawalRequest;
 use App\Enums\Accounts\AccountStatusEnum;
 use App\Enums\Accounts\AccountTypeEnum;
@@ -61,10 +62,10 @@ class Account extends Model
         return $this->belongsTo(ChartOfAccount::class, 'gl_account_id');
     }
 
-    public function liens(): HasMany
-    {
-        return $this->hasMany(Lien::class);
-    }
+    // public function liens(): HasMany
+    // {
+    //     return $this->hasMany(Lien::class);
+    // }
 
     public function withdrawalRequests(): HasMany
     {
@@ -95,5 +96,13 @@ class Account extends Model
     public static function momoFloat(MomoProviderEnum $provider): self
     {
         return self::whereHas('gl', fn($q) => $q->where('code', $provider->floatGlCode()))->firstOrFail();
+    }
+
+
+    public function transactions()
+    {
+        return Transaction::where('debit_account_id', $this->account_id)
+            ->orWhere('credit_account_id', $this->account_id)
+            ->orderByDesc('created_at')->get();
     }
 }
