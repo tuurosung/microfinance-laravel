@@ -3,12 +3,13 @@
 namespace App\Domain\CIFs\Contracts;
 
 use App\Domain\CIFs\Models\Cif;
+use App\DTOs\Cifs\CifData;
 use Illuminate\Database\Eloquent\Collection;
 
 interface CifRepositoryInterface
 {
-    public function create(array $data): Cif;
-    public function update(Cif $cif, array $data): bool;
+    public function create(CifData $cifData): Cif;
+    public function update(Cif $cif, CifData $cifData): bool;
     public function delete(Cif $cif): bool;
 
 
