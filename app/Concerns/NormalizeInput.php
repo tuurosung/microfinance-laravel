@@ -2,6 +2,8 @@
 
 namespace App\Concerns;
 
+use Illuminate\Support\Facades\Log;
+
 trait NormalizeInput
 {
     /**
@@ -16,6 +18,7 @@ trait NormalizeInput
 
     protected function normalizeEmail(string $value): string
     {
+        Log::info("normalizedEmail:", [strtolower(trim($value))]);
         return strtolower(trim($value));
     }
 
