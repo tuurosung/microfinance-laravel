@@ -4,7 +4,8 @@ namespace App\Domain\CIFs\Repositories;
 
 use App\Domain\CIFs\Contracts\CifRepositoryInterface;
 use App\Domain\CIFs\Models\Cif;
-use Override;
+use App\DTOs\Cifs\CifData;
+use Illuminate\Database\Eloquent\Collection;
 
 class CifRepository implements CifRepositoryInterface
 {
@@ -13,21 +14,46 @@ class CifRepository implements CifRepositoryInterface
     ) {}
 
 
-    #[Override]
-    public function create(array $data): Cif
+    public function create(CifData $cifData): Cif
     {
-        return $this->model->create($data);
+        $cif = $this->model->create($cifData->toArray());
+
+        if (! $cif) {
+            throw new \DomainException("Unable to create new Customer File");
+        }
+
+        return $cif;
     }
 
-    #[Override]
-    public function update(Cif $cif, array $data): bool
+
+    public function update(Cif $cif, CifData $cifData): bool
     {
-        return $cif->update($data);
+        try {
+
+            $cif->update($cifData->toArray());
+
+        } catch (\Exception $e) {
+            throw new \DomainException("Unable to update Customer information");
+        }
+
+        return true;
     }
 
-    #[Override]
+
     public function delete(Cif $cif): bool
     {
-        return $cif->delete();
+        try {
+            $cif->delete();
+        } catch (\Exception $e) {
+            throw new \DomainException("Unable to delete Customer file");
+        }
+
+        return true;
+    }
+
+
+    public function allCifs(): Collection
+    {
+        return $this->model->get();
     }
 }
