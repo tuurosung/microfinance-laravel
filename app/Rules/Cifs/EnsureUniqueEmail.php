@@ -12,7 +12,7 @@ final class EnsureUniqueEmail implements ValidationRule
 {
 
     public function __construct(
-        private readonly ?string $ignoreId = null
+        private readonly ?string $ignoreCifId = null
     ){}
 
     /**
@@ -30,11 +30,11 @@ final class EnsureUniqueEmail implements ValidationRule
 
         $query = Cif::whereRaw('LOWER(email) = ?', [strtolower(trim($value))]);
 
-        if ($this->ignoreId !== null) {
-            $query->whereNot('cif_id', $this->ignoreId);
+        if ($this->ignoreCifId !== null) {
+            $query->whereNot('cif_id', $this->ignoreCifId);
         }
 
-        if (! $query->exists()) {
+        if ($query->exists()) {
             $fail('Another Customer exists with the same email address');
         }
     }
