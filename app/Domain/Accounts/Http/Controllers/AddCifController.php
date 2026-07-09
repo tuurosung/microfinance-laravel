@@ -19,7 +19,7 @@ class AddCifController extends Controller
     public function __invoke(Request $request)
     {
         return view('app.accounts.accounts.add-cif', [
-            'cifs' => $this->cifService->getCifs()
+            'cifs' => $this->cifService->allCifs()
         ]);
     }
 }
