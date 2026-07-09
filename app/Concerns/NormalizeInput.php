@@ -18,7 +18,6 @@ trait NormalizeInput
 
     protected function normalizeEmail(string $value): string
     {
-        Log::info("normalizedEmail:", [strtolower(trim($value))]);
         return strtolower(trim($value));
     }
 
