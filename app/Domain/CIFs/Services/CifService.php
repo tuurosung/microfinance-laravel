@@ -3,52 +3,37 @@
 namespace App\Domain\CIFs\Services;
 
 use App\Domain\CIFs\Contracts\CifRepositoryInterface;
-use App\Domain\CIFs\Models\Cif;
-use App\Domain\KYC\Contracts\KycRepositoryInterface;
+use App\Domain\CIFs\Contracts\CifServiceInterface;
+use App\DTOs\Cifs\CifData;
 use Illuminate\Database\Eloquent\Collection;
 
-class CifService
+class CifService implements CifServiceInterface
 {
     /**
      * Create a new class instance.
      */
     public function __construct(
-        private readonly CifRepositoryInterface $cifRepositoryInterface,
-        private readonly KycRepositoryInterface $kycRepositoryInterface,
-        private Cif $cif
+        private readonly CifRepositoryInterface $cifs,
     ){}
 
 
-    public function createCif(array $data): Cif
+
+    public function createNew(CifData $cifData): string
     {
-        $cif = $this->cifRepositoryInterface->create($data);
-
-        if (! $cif) {
-            throw new \Exception("Unable to create new cif");
-        }
-
-        // create kyc row
-        // $this->kycRepositoryInterface->updateOrCreate($cif, $data);
-
-        return $cif;
+        $cif = $this->cifs->create($cifData);
+        return $cif->cif_id;
     }
 
 
     public function allCifs(): Collection
     {
-        return $this->cifRepositoryInterface->allCifs();
-    }
-
-
-    public function getCifs()
-    {
-        return $this->cif->all();
+        return $this->cifs->allCifs();
     }
 
 
     public function getCifsAsArray(): array
     {
-        return $this->getCifs()
+        return $this->allCifs()
             ->mapWithKeys(fn($cif) =>[ $cif->cif_id => $cif->full_name ])
             ->toArray();
     }
