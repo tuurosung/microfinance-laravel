@@ -127,6 +127,12 @@ return [
             'path' => storage_path('logs/laravel.log'),
         ],
 
+        'mycro'=> [
+            'driver'=> 'single',
+            'path' => storage_path('logs/mycro.log'),
+            'level' => env('LOG_LEVEL', 'debug')
+        ]
+
     ],
 
 ];
