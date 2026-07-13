@@ -20,7 +20,7 @@
                 <main class="pt-6" style="background-color: #f4f7fb !important;">
                     <div class="container full-container py-5">
 
-
+                        @include('layouts.errors')
                         @yield('content')
 
                         <!-- Page Hader Goes Here -->

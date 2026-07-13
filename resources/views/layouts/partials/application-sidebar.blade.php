@@ -53,13 +53,13 @@
                                                 <div id="blog-accordion" class="hs-accordion-content " style="display: none;">
                                                     <ul class="">
                                                         <li class="pl-4 pr-3">
-                                                            <a class="dropdown-submenu-link " href="{{ route('deposit-accounts.index') }}">
+                                                            <a class="dropdown-submenu-link " href="{{ route('accounts.create') }}">
                                                                 <i class="ti ti-circle flex-shrink-0 text-xs me-3 "></i>
                                                                 <span class="hide-menu">New Account</span>
                                                             </a>
                                                         </li>
                                                         <li class="pl-4 pr-3">
-                                                            <a class="dropdown-submenu-link " href="{{ route('deposit-accounts.index') }}">
+                                                            <a class="dropdown-submenu-link " href="{{ route('accounts.index') }}">
                                                                 <i class="ti ti-circle flex-shrink-0 text-xs me-3 "></i>
                                                                 <span class="hide-menu">Existing Accounts</span>
                                                             </a>

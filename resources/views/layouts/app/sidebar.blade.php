@@ -25,9 +25,9 @@
                 <!-- Accounts -->
                 <flux:sidebar.group expandable heading="Accounts" class="grid" icon="briefcase">
 
-                    <flux:sidebar.item href="#">New Account</flux:sidebar.item>
-                    <flux:sidebar.item href="#">Existing Account</flux:sidebar.item>
-                    <flux:sidebar.item href="#">All Accounts</flux:sidebar.item>
+                    <flux:sidebar.item href="{{ route('accounts.deposit-accounts.create') }}">New Account</flux:sidebar.item>
+                    <flux:sidebar.item href="{{ route('accounts.deposit-accounts.index') }}">Existing Account</flux:sidebar.item>
+                    <flux:sidebar.item href="{{ route('accounts.deposit-accounts.index') }}">All Accounts</flux:sidebar.item>
 
                 </flux:sidebar.group>
 
@@ -45,19 +45,8 @@
 
                 </flux:sidebar.group>
 
-                <!-- Branches -->
-                <flux:sidebar.group expandable heading="Branches" icon="squares-2x2">
-
-                    <flux:sidebar.item href="#">New Branch</flux:sidebar.item>
-                    <flux:sidebar.item href="#">Existing Branch</flux:sidebar.item>
-
-                </flux:sidebar.group>
 
 
-                <flux:sidebar.item icon="users" :href="route('cif.index')" :current="request()->routeIs('cif.index')"
-                    current="" wire:navigate>
-                    {{ __('Customers') }}
-                </flux:sidebar.item>
 
             </flux:sidebar.group>
         </flux:sidebar.nav>
