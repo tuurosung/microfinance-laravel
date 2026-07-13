@@ -4,10 +4,8 @@ use App\Domain\KYC\Http\Controllers\KycAmlController;
 use App\Domain\KYC\Http\Controllers\KycController;
 use App\Domain\KYC\Http\Controllers\KycDocumentController;
 use App\Domain\KYC\Http\Controllers\KycGhanaCardController;
-use App\Domain\KYC\Http\Controllers\ShowAmlStepController;
-use App\Domain\KYC\Http\Controllers\ShowDocumentsStepController;
-use App\Domain\KYC\Http\Controllers\ShowGhanaCardStepController;
 use App\Domain\KYC\Http\Controllers\ShowKycComplianceController;
+use App\Domain\KYC\Http\Controllers\VerifyKycController;
 use Illuminate\Support\Facades\Route;
 
 // #steppers
@@ -16,6 +14,7 @@ Route::prefix('cif/kyc')
     ->group(function () {
 
         Route::get('kyc-compliance/{cif}', ShowKycComplianceController::class)->name('kyc-compliance');
+        Route::post('kyc-validate/{cif}', VerifyKycController::class)->name('verify-kyc');
 
         // Route::get('aml-step/{cif}/{kyc}', ShowAmlStepController::class)->name('aml-step');
         // Route::get('ghana-card-step/{cif}/{kyc}', ShowGhanaCardStepController::class)->name('ghana-card-step');

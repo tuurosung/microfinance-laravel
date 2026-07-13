@@ -35,6 +35,11 @@ class RecreateCifTable extends Command
         Schema::dropIfExists('kyc_documents');
         Schema::dropIfExists('kyc_ghana_cards');
 
+        Schema::dropIfExists('accounts');
+        Schema::dropIfExists('transactions');
+        Schema::dropIfExists('chart_of_accounts');
+        Schema::dropIfExists('accounts');
+
 
         // get miration up function
         $cif_migration = database_path('migrations/2026_05_14_094950_create_cifs_table.php');
@@ -43,13 +48,26 @@ class RecreateCifTable extends Command
         $kyc_documents_migration = database_path('migrations/2026_05_30_033031_create_kyc_documents_table.php');
         $kyc_ghana_card_migration = database_path('migrations/2026_05_30_181813_create_kyc_ghana_cards_table.php');
 
+
+        $transactions_migration = database_path('migrations/2026_07_03_165021_create_transactions_table.php');
+        $accounts_migration = database_path('migrations/2026_06_03_011541_create_accounts_table.php');
+        $chart_of_accounts_migration = database_path('migrations/2026_07_06_012304_create_chart_of_accounts_table.php');
+        $momo_float_migration = database_path('migrations/2026_07_06_024721_create_momo_float_accounts_to_coa.php');
+
+
         $migrations = [
             $cif_migration,
             $kyc_migration,
             $kyc_aml_migration,
             $kyc_documents_migration,
             $kyc_ghana_card_migration,
+
+            $chart_of_accounts_migration,
+            $accounts_migration,
+            $transactions_migration,
+            $momo_float_migration,
         ];
+
 
         foreach ($migrations as $migration) {
             $migration = require $migration;
@@ -60,7 +78,7 @@ class RecreateCifTable extends Command
         // $migration = require $cif_migration;
         // $migration->up();
 
-        // // run kyc migration
+        // run kyc migration
         // $migration = require $kyc_migration;
         // $migration->up();
 
@@ -68,6 +86,17 @@ class RecreateCifTable extends Command
 
         // set foreign key locks to 1
         Schema::enableForeignKeyConstraints();
+
+
+        // Seed chart of accounts
+        Artisan::call('db:seed', [
+            '--class' => 'ChartOfAccountSeeder',
+        ]);
+
+        // Seed SystemAccount
+        Artisan::call('db:seed', [
+            '--class'=> 'SystemAccountSeeder'
+        ]);
 
         $this->info('CIF table recreated.');
     }

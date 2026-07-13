@@ -117,16 +117,14 @@ select:focus[data-flux-control] {
 
 
 /* Bootstrap row equivalent */
-.row {
-    @apply flex
-}
 
-.col-md-6 {
+
+/* .col-md-6 {
     position: relative;
     width: 50%;
     padding-right: 15px;
     padding-left: 15px;
-}
+} */
 
 
 i[class^="fi-rr-"]::before,
@@ -196,7 +194,7 @@ span[class*="fi-br-"]::before {
 }
 
 
-.tables {
+.table {
     @apply w-full text-sm text-left table
 }
 
@@ -225,9 +223,8 @@ span[class*="fi-br-"]::before {
 
 @layer components {
     .form-label {
-        display: block;
+        @apply block text-lg text-dark!;
         margin-bottom: calc(var(--spacing) * 2);
-        color: color-mix(in oklab, var(--text-base), 40%, #000000);
         font-size: 13px !important;
         font-weight: 600 !important;
     }
@@ -282,4 +279,28 @@ span[class*="fi-br-"]::before {
     height: fit-content;
     max-width: -moz-fit-content;
     max-width: fit-content
+}
+
+
+@layer utilities {
+
+    .bg-white {
+        background-color: #fff !important;
+    }
+
+    .bg-gray-custom {
+        background-color: #F5F5F4 !important;
+    }
+
+    .row {
+            @apply grid grid-cols-12 gap-6 mb-6;
+    }
+
+    .col-md-6 {
+        @apply lg:col-span-6 md:col-span-6 sm:col-span-12 col-span-12
+    }
+
+    .col-md-12 {
+        @apply col-span-12
+    }
 }
