@@ -51,12 +51,7 @@ class StoreAccountRequest extends FormRequest
                 'string',
                 'max:15',
                 new Enum(AccountMandateEnum::class)
-            ],
-            'opening_balance' => [
-                'required',
-                'numeric',
-                'min:0'
-            ],
+            ]
         ];
     }
 }
