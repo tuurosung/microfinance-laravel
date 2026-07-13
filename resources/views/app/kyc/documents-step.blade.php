@@ -1,60 +1,52 @@
-<x-layouts::app>
+@extends('layouts.app')
 
-    <div class="mx-auto max-w-7xl pb-10">
+@section('content')
+<x-custom.headers.page-header title="KYC Compliance" currentPage="KYC Compliance">
 
-        <x-custom.headers.page-header title="KYC Compliance" currentPage="KYC Compliance">
+</x-custom.headers.page-header>
 
-        </x-custom.headers.page-header>
-
-        @include('layouts.errors')
-
-
-        @include('app.kyc.partials.timeline')
+@include('layouts.errors')
 
 
-
-            <div class="grid grid-cols-12 gap-6 mt-5">
-                <div class="lg:col-span-3 md:col-span-3 sm:col-span-12 col-span-12">
-
-                    @include('custom.cif.profile')
-
-                </div>
-                <div class="lg:col-span-9 md:col-span-9 sm:col-span-12 col-span-12">
-
-                    <x-custom.cards.card title="Contact Information">
-
-                        @include('app.kyc.forms.documents-form')
-
-
-                        <hr class="my-10">
-
-
-                        <div class="mt-8 flex justify-end">
-                            <button type="button"
-                                class="btn bg-red-500 btn-danger hover:bg-red-200 text-white me-3 px-7">
-                                <i class="fi fi-sr-arrow-left me-3"></i>
-                                Return
-                            </button>
-                            <button type="submit" class="btn bg-primary hover:bg-primaryemphasis text-white px-8">
-                                <i class="fi fi-rr-check me-3"></i>
-                                Save And Continue
-                            </button>
-                        </div>
+@include('app.kyc.partials.timeline')
 
 
 
-                    </x-custom.cards.card>
+<div class="grid grid-cols-12 gap-6 mt-5">
+    <div class="lg:col-span-3 md:col-span-3 sm:col-span-12 col-span-12">
 
-
-                </div>
-            </div>
-    
+        @include('custom.cif.profile')
 
     </div>
+    <div class="lg:col-span-9 md:col-span-9 sm:col-span-12 col-span-12">
 
-    @section('scripts')
-        <script type="text/javascript">
+        <x-custom.cards.card title="Contact Information">
 
-        </script>
-    @endsection
-</x-layouts::app>
+            @include('app.kyc.forms.documents-form')
+
+
+            <hr class="my-10">
+
+
+            <div class="mt-8 flex justify-end">
+                <button type="button"
+                    class="btn bg-red-500 btn-danger hover:bg-red-200 text-white me-3 px-7">
+                    <i class="fi fi-sr-arrow-left me-3"></i>
+                    Return
+                </button>
+                <button type="submit" class="btn bg-primary hover:bg-primaryemphasis text-white px-8">
+                    <i class="fi fi-rr-check me-3"></i>
+                    Save And Continue
+                </button>
+            </div>
+
+
+
+        </x-custom.cards.card>
+
+
+    </div>
+</div>
+
+@endsection
+

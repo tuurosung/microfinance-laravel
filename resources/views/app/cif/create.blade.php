@@ -44,7 +44,7 @@
                 <x-custom.form-inputs.select label="Sex" name="sex" id="sex" :options="$sexOptions" />
             </div>
             <div class="lg:col-span-3 md:col-span-3 sm:col-span-12 col-span-12">
-                <x-custom.form-inputs.date-input label="Date Of Birth" name="date_of_birth"
+                <x-custom.form-inputs.date-input label="Date Of Birth" name="date_of_birth" datepicker-max-date="{{ now()->format('Y-m-d') }}"
                     id="date_of_birth" />
             </div>
         </div>

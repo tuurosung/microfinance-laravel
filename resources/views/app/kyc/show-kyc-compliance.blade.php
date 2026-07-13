@@ -102,11 +102,9 @@
                         <div data-hs-stepper-content-item="{
                                 &quot;index&quot;: 2
                             }" style="display: none;" class="">
-                            <div class="p-4 h-60 bg-gray-50 flex justify-center items-center border border-dashed border-gray-200 rounded-md">
-                                <h3 class="text-gray-500 text-base">
-                                    Second content
-                                </h3>
-                            </div>
+
+
+                            @livewire('kyc.aml-step', ['kyc' => $kyc])
                         </div>
                         <!-- End First Contnet -->
 
