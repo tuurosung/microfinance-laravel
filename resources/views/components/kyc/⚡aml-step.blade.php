@@ -1,45 +1,67 @@
 <?php
 
-use App\Domain\CIFs\Models\Cif;
 use App\Domain\KYC\Models\Kyc;
-use App\Domain\KYC\Services\KycAmlService;
-use App\Domain\KYC\Services\KycService;
+use App\Domain\KYC\Services\KycComplianceService;
+use App\DTOs\Kycs\AmlData;
 use App\Enums\Kyc\EmploymentStatusEnum;
 use App\Enums\Kyc\SourceOfFundsEnum;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
-use Livewire\Attributes\Validate;
+use Livewire\Attributes\Computed;
 use Livewire\Component;
 
 new class extends Component
 {
-    public Cif $cif;
+    private const VALIDATABLE_FIELDS = [
+        'source_of_funds',
+        'employment_status',
+        'occupation',
+        'employer_name',
+        'monthly_income'
+    ];
+
+
     public Kyc $kyc;
-    public ?string $source_of_funds = null;
-    public ?string $employment_status = null;
-    public ?string $occupation = null;
-    public ?string $employer_name = null;
 
-    protected KycAmlService $kycAmlService;
 
-    #[Validate]
-    public ?float $monthly_income = 0;
+    public ?SourceOfFundsEnum $source_of_funds = null;
+    public ?EmploymentStatusEnum $employment_status = null;
+    public ?string $occupation = '';
+    public ?string $employer_name = '';
+    public ?int $monthly_income = 0;
 
-    public ?array $employmentStatusOptions = [];
-    public ?array $sourceOfFundOptions = [];
 
-    public function boot(KycAmlService $kycAmlService): void {
-        $this->kycAmlService = $kycAmlService;
+    protected KycComplianceService $kycComplianceService;
+
+    public function boot(): void
+    {
+
+    }
+
+
+    #[Computed]
+    public function sourceOfFundsOptions(): array
+    {
+        return SourceOfFundsEnum::options();
+    }
+
+
+    #[Computed]
+    public function employmentStatusOptions()
+    {
+        return EmploymentStatusEnum::options();
     }
 
 
     public function mount(Kyc $kyc): void
     {
-        $this->kyc = $kyc;
-        $this->source_of_funds = $kyc->kycAml?->source_of_funds ?? '';
-        $this->monthly_income = $kyc->monthly_income ?? 0;
-        $this->sourceOfFundOptions = SourceOfFundsEnum::options();
-        $this->employmentStatusOptions = EmploymentStatusEnum::options();
+        Log::info("Kyc", [$kyc]);
+        $aml = $kyc->aml;
+        $this->source_of_funds = $aml?->source_of_funds;
+        $this->employment_status = $aml?->employment_status;
+        $this->occupation = $aml?->occupation;
+        $this->employer_name = $aml?->employer_name;
+        $this->monthly_income = $aml?->monthly_income ?? 0;
     }
 
     protected function rules(): array
@@ -53,40 +75,42 @@ new class extends Component
         ];
     }
 
+    public function updated(string $property): void
+    {
+        if (in_array($property, self::VALIDATABLE_FIELDS, true)) {
+            $this->validateOnly($property);
+        }
+    }
 
-    public function updateKyc(): void
+
+    public function updateKyc(KycComplianceService $kycComplianceService): void
     {
         try {
 
             $data = $this->validate();
-            $this->kycAmlService->updateAmlInfo($this->kyc, $data);
+
+            $amlData = AmlData::fromArray($data);
+            $kycComplianceService->updateAml($this->kyc, $amlData);
 
             $this->dispatch("kyc-updated");
-
         } catch (ValidationException $e) {
 
             Log::error($e->getMessage());
             $this->dispatch('update-failed');
             throw $e;
-
         }
-    }
-
-    public function updated()
-    {
-        $this->validate();
     }
 };
 ?>
 
 <div>
-    <form method="POST" action="{{ route('cif.kyc.aml.store', [$cif, $kyc]) }}" wire:submit.prevent="updateKyc">
+    <form method="POST" wire:submit.prevent="updateKyc">
         @csrf
 
         <div class="grid grid-cols-12 gap-6 mb-6">
             <div class="lg:col-span-3 md:col-span-3 sm:col-span-12 col-span-12">
                 <x-custom.form-inputs.select label="Source Of Funds" name="source_of_funds" id="source_of_funds"
-                    :options="$this->sourceOfFundOptions" :selected="$this->source_of_funds" wire:model.live="source_of_funds" required />
+                    :options="$this->sourceOfFundsOptions" :selected="$this->source_of_funds" wire:model.live="source_of_funds" required />
                 @error('source_of_funds')
                 <span class="text-error">{{ $message }}</span>
                 @enderror

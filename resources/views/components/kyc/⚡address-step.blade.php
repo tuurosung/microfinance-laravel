@@ -2,43 +2,57 @@
 
 use App\Domain\CIFs\Models\Cif;
 use App\Domain\KYC\Models\Kyc;
+use App\Domain\KYC\Services\KycComplianceService;
 use App\Domain\KYC\Services\RegionService;
+use App\DTOs\Kycs\KycData;
 use Illuminate\Support\Facades\Log;
+use Livewire\Attributes\Computed;
 use Livewire\Component;
 
 new class extends Component
 {
     public Cif $cif;
     public Kyc $kyc;
-    public ?string $region = '';
-    public ?string $district = '';
-    public ?string $town = '';
-    public ?string $digital_address = '';
-    public $regions = [];
-    public array $districts = [];
+
+
+    public string $region = '';
+    public string $district = '';
+    public string $town = '';
+    public string $digital_address = '';
 
     protected RegionService $regionService;
+    protected KycComplianceService $kycComplianceService;
 
     public function boot(RegionService $regionService): void
     {
         $this->regionService = $regionService;
     }
 
-
     public function mount(Cif $cif, Kyc $kyc): void
     {
         $this->cif = $cif;
-        $this->region = $kyc->region;
-        $this->regions = $this->regionService->getRegions();
-        $this->district = $kyc->district;
-        $this->town = $kyc->town;
-        $this->digital_address = $kyc->digital_address;
+        $this->region = $kyc->region ?? '';
+        $this->district = $kyc->district ?? '';
+        $this->town = $kyc->town ?? '';
+        $this->digital_address = $kyc->digital_address ?? '';
+    }
+
+    #[Computed]
+    public function regions(): array
+    {
+        return $this->regionService->getRegions();
+    }
+
+    #[Computed]
+    public function districts(): array
+    {
+        return $this->region ? $this->regionService->getDistricts($this->region) : [];
     }
 
 
-    public function updatedRegion(string $value): void
+
+    public function updatedRegion(): void
     {
-        $this->districts = $this->regionService->getDistricts($value);
         $this->district = '';
     }
 
@@ -52,21 +66,17 @@ new class extends Component
         ];
     }
 
-    public function updateKyc(): void
+    public function updateKyc(KycComplianceService $kycComplianceService): void
     {
         try {
 
             $data = $this->validate();
 
-            $this->kyc->updateOrCreate(
-                ['kyc_id' => $this->kyc->kyc_id],
-                $data
-            );
+            $kycData = KycData::fromArray($data);
+            $kycComplianceService->updateContact($this->kyc, $kycData);
 
-            Log::info('Kyc Updated Successfully');
             $this->dispatch('kyc-updated');
         } catch (\Illuminate\Validation\ValidationException $e) {
-
             $this->dispatch('update-failed');
             throw $e;
         }
@@ -82,9 +92,9 @@ new class extends Component
                     name="region"
                     id="region"
                     label="Region"
-                    :selected="$kyc->region ?? ''"
+                    :selected="$region"
                     wire:model.live="region"
-                    :options="$regions" required />
+                    :options="$this->regions" required />
                 @error('region')
                 <span class="text-error">{{ $message }}</span>
                 @enderror
@@ -95,9 +105,9 @@ new class extends Component
                     name="district"
                     id="district"
                     label="District"
-                    :options="$districts"
-                    :selected="$cif->kyc->district ?? ''"
-                    wire:model="district" required />
+                    :options="$this->districts"
+                    :selected="$this->district"
+                    wire:model.live="district" required />
                 @error('district')
                 <span class="text-error">{{ $message }}</span>
                 @enderror
@@ -108,8 +118,8 @@ new class extends Component
                     name="town"
                     id="town"
                     label="Town"
-                    :value="$kyc->town ?? old('town')"
-                    wire:model="town"
+                    :value="$this->town"
+                    wire:model.live="town"
                     placeholder="Tamale" required />
                 @error('town')
                 <span class="text-error">{{ $message }}</span>
@@ -120,8 +130,8 @@ new class extends Component
                     name="digital_address"
                     id="digital_address"
                     label="Digital Address (GPS)"
-                    :value="$kyc->digital_address ?? ''"
-                    wire:model="digital_address"
+                    :value="$this->digital_address"
+                    wire:model.live="digital_address"
                     placeholder="NT-xxx-xxxx" required />
                 @error('digital_address')
                 <span class="text-error">{{ $message }}</span>

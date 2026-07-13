@@ -1,14 +1,14 @@
 <?php
 
-use App\Models\Cif\Cif;
-use App\Services\Kyc\RegionService;
+use App\Domain\CIFs\Models\Cif;
+use App\Domain\KYC\Services\RegionService;
 use Livewire\Component;
 
 new class extends Component {
     public string $selectedRegion = '';
     public string $selectedDistrict = '';
     public array $districts = [];
-    public  $cif = "";
+    public Cif $cif;
 
     public function updatedSelectedRegion(string $value): void
     {
