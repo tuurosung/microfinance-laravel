@@ -13,6 +13,8 @@ use App\Enums\Transactions\MomoProviderEnum;
 use App\Observers\Accounts\AccountObserver;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use Illuminate\Database\Eloquent\Attributes\Scope;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -35,6 +37,18 @@ class Account extends Model
             "account_type"=> AccountTypeEnum::class,
             "status"=> AccountStatusEnum::class
         ];
+    }
+
+    #[Scope]
+    protected function customerFacing(Builder $query): Builder
+    {
+        return $query->whereNotIn("account_type",  AccountTypeEnum::systemTypes());
+    }
+
+    #[Scope]
+    protected function active(Builder $query): Builder
+    {
+        return $query->where('status', AccountStatusEnum::ACTIVE);
     }
 
     public function primaryCif(): BelongsTo
