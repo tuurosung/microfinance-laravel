@@ -4,7 +4,8 @@
     'label' => null,
     'placeholder' => 'Select date',
     'value' => null,
-    'required' => false
+    'required' => false,
+    'attributes' => ''
 ])
 
 <div class="mb-3">
@@ -22,8 +23,8 @@
                 datepicker-format="yyyy-mm-dd"
                 datepicker-autoselect-today
                 name="{{ $name }}" id="{{ $id }}" type="text"
-                class="block w-full ps-9 pe-3 py-2.5 form-control bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-1 focus:ring-brand focus:border-brand px-3  shadow-xs placeholder:text-body"
-                placeholder="{{ $placeholder }}" {{ $required ? 'required' : '' }}>
+                class="block w-full ps-10! pe-3 py-2.5 form-control bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-1 focus:ring-brand focus:border-brand  shadow-xs placeholder:text-body"
+                placeholder="{{ $placeholder }}" {{ $required ? 'required' : '' }} {{ $attributes }}>
     </div>
 
 </div>
